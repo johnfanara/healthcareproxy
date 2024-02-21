@@ -11,3 +11,42 @@
 .App{
     background:linear-gradient(to right, darkblue, lightblue );
 }
+
+/* Admin Report Form styles */
+.report-form-container {
+    margin: 20px;
+    padding: 20px;
+    background: #fff; /* Change this to match your desired background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .report-form-container h1 {
+    color: #333; /* Change this to match your desired heading color */
+  }
+  
+  .report-form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .report-form-container input,
+  .report-form-container textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .report-form-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: goldenrod; /* Use your theme color */
+    color: white;
+    cursor: pointer;
+  }
+  
+  .report-form-container button:hover {
+    background-color: darkgoldenrod; /* Darker shade for hover effect */
+  }
