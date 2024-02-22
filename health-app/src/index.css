@@ -9,20 +9,20 @@
     color:goldenrod;
 }
 .App{
-    background:linear-gradient(to right, darkblue, lightblue );
+  background: linear-gradient(to right, rgb(22, 111, 156), rgb(90, 169, 195) );
 }
 
 /* Admin Report Form styles */
 .report-form-container {
     margin: 20px;
     padding: 20px;
-    background: #fff; /* Change this to match your desired background */
+    background: linear-gradient(to right, rgb(22, 111, 156), rgb(90, 169, 195) );; /* Change this to match your desired background */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .report-form-container h1 {
-    color: #333; /* Change this to match your desired heading color */
+    color: #3f3939; /* Change this to match your desired heading color */
   }
   
   .report-form-container form {
@@ -50,3 +50,11 @@
   .report-form-container button:hover {
     background-color: darkgoldenrod; /* Darker shade for hover effect */
   }
+  
+  /*Patient login email/pass field style*/
+
+  .LoginForm {
+    background: linear-gradient(to right, rgb(22, 111, 156), rgb(90, 169, 195) );
+  }
+  
+  
