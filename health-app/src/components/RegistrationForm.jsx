@@ -29,30 +29,20 @@ const RegistrationForm = () => {
         <h2>Register</h2> 
         <form>                                                                                            
           <div>
-            <label htmlFor="email-address">
-                Email address
-            </label>
             <input
               type="email"
-              label="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}  
               required                                    
               placeholder="Email address"                                
             />
-            </div>
-            <div>
-              <label htmlFor="password">
-                  Password
-              </label>
-              <input
-                type="password"
-                label="Create password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} 
-                required                                 
-                placeholder="Password"              
-              />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} 
+              required                                 
+              placeholder="Password"              
+            />
             </div>
             <button
             type="submit" 
