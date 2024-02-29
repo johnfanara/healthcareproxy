@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import RegistrationForm from './components/RegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
-import PatientLoginForm from './components/PatientLoginForm';
 import AdminLoginForm from './components/AdminLoginForm';
 
 const firebaseConfig = {
@@ -22,25 +21,16 @@ const auth = getAuth(app);
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPatientLoginForm, setShowPatientLoginForm] = useState(false);
   const [showAdminLoginForm, setShowAdminLoginForm] = useState(false);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
 
-  const handlePatientButtonClick = () => {
-    setShowPatientLoginForm(true);
-    setShowAdminLoginForm(false);
-    setShowRegistrationForm(false);
-  }
-
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
-    setShowPatientLoginForm(false);
     setShowRegistrationForm(false);
   }
 
   const handleRegistrationButtonClick = () => {
     setShowRegistrationForm(true);
-    setShowPatientLoginForm(false);
     setShowAdminLoginForm(false);
   }
 
@@ -56,13 +46,13 @@ function App() {
     setPassword(event.target.value);
   };
 
-
-  // Event handler for form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // TODO: Implement backend logic here
-    console.log(email);
-    console.log(password);
+  const handleAdminLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Admin logged in successfully");
+    } catch (error) {
+      console.error("Admin login error: ", error.message);
+    }
   };
 
   return (
@@ -71,26 +61,16 @@ function App() {
         <h1 className="heading">
           Healthcare Proxy
         </h1>
-        <button onClick={handlePatientButtonClick}>Patient Login</button>
         <button onClick={handleAdminButtonClick}>Admin Login</button>
         <button onClick={handleRegistrationButtonClick}>Register</button>
       </div>
-
-      {showPatientLoginForm && (
-        <PatientLoginForm
-          auth={auth}
-          handleEmailInput={handleEmailInput}
-          handlePasswordInput={handlePasswordInput}
-          handleSubmit={handleSubmit}
-        />
-      )}
 
       {showAdminLoginForm && (
         <AdminLoginForm
           auth={auth}
           handleEmailInput={handleEmailInput}
           handlePasswordInput={handlePasswordInput}
-          handleSubmit={handleSubmit}
+          handleLogin={handleAdminLogin}
         />
       )}
 
@@ -99,7 +79,6 @@ function App() {
           auth={auth}
           handleEmailInput={handleEmailInput}
           handlePasswordInput={handlePasswordInput}
-          handleSubmit={handleSubmit}
           />
       )}
       <AdminReportForm />
