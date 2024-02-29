@@ -56,5 +56,13 @@
   .LoginForm {
     background: linear-gradient(to right, rgb(22, 111, 156), rgb(90, 169, 195) );
   }
-  
-  
+
+  /*error and auth message box*/
+  .message {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #dff0d8; 
+    color: #3c763d; 
+  }
