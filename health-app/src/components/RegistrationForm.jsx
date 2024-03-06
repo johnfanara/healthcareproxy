@@ -28,7 +28,22 @@ const RegistrationForm = () => {
       }, 3000);
   } catch (error) {
     console.error("Registration error:", error.message);
-    setMessage("Error: ${error.message}");
+    let errorMessage = "Registration failed. Please try again.";
+
+    switch (error.code) {
+      case "auth/invalid-email":
+        errorMessage = "Invalid email address.";
+        break;
+      case "auth/weak-password":
+        errorMessage = "Password should be at least 6 characters long.";
+        break;
+      case "auth/email-already-in-use":
+        errorMessage = "Email is already in use. Please use a different one.";
+        break;
+      default:
+        break;
+    }
+    setMessage(errorMessage);
     setTimeout(() => {
       setMessage('');
     }, 3000);
