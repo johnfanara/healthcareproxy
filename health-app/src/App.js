@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import RegistrationForm from './components/RegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
@@ -17,73 +19,55 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
 function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [showAdminLoginForm, setShowAdminLoginForm] = useState(false);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
-
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAdminLoggedIn(!!user);
+    });
+    return unsubscribe; // Cleanup function
+  }, []);
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
     setShowRegistrationForm(false);
-  }
-
+  };
   const handleRegistrationButtonClick = () => {
     setShowRegistrationForm(true);
     setShowAdminLoginForm(false);
-  }
-
-  // Event handler for email input change
-  const handleEmailInput = (event) => {
-    console.log(event.target.value);
-    setEmail(event.target.value);
   };
-
-  // Event handler for password input change
-  const handlePasswordInput = (event) => {
-    console.log(event.target.value);
-    setPassword(event.target.value);
+  const handleAdminLogout = () => {
+    signOut(auth)
+      .then(() => {
+        setIsAdminLoggedIn(false);
+      })
+      .catch((error) => {
+        console.error("Error during logout: ", error.message);
+      });
   };
-
-  const handleAdminLogin = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("Admin logged in successfully");
-    } catch (error) {
-      console.error("Admin login error: ", error.message);
-    }
-  };
-
   return (
-    <div>
-      <div className="App">
-        <h1 className="heading">
-          Healthcare Proxy
-        </h1>
-        <button onClick={handleAdminButtonClick}>Admin Login</button>
-        <button onClick={handleRegistrationButtonClick}>Register</button>
-      </div>
-
-      {showAdminLoginForm && (
-        <AdminLoginForm
-          auth={auth}
-          handleEmailInput={handleEmailInput}
-          handlePasswordInput={handlePasswordInput}
-          handleLogin={handleAdminLogin}
-        />
+    <div className="App">
+      <h1 className="heading">Healthcare Proxy</h1>
+      {!isAdminLoggedIn && (
+        <>
+          <button onClick={handleAdminButtonClick}>Admin Login</button>
+          <button onClick={handleRegistrationButtonClick}>Register</button>
+        </>
       )}
-
-      {showRegistrationForm && (
-        <RegistrationForm
-          auth={auth}
-          handleEmailInput={handleEmailInput}
-          handlePasswordInput={handlePasswordInput}
-          />
+      {showAdminLoginForm && !isAdminLoggedIn && (
+        <AdminLoginForm />
       )}
-      <AdminReportForm />
+      {showRegistrationForm && !isAdminLoggedIn && (
+        <RegistrationForm />
+      )}
+      {isAdminLoggedIn && <AdminReportForm />}
+      {isAdminLoggedIn && (
+        <button className="logoutButton" onClick={handleAdminLogout}>
+          Sign Off
+        </button>
+      )}
     </div>
   );
 }
-
 export { auth, App as default };

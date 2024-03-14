@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../App';
 
 const AdminLoginForm = () => {
@@ -8,50 +7,23 @@ const AdminLoginForm = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [forgotPassword, setForgotPassword] = useState(false);
-
-  const onResetPassword = async (e) => {
+  
+  const onSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await sendPasswordResetEmail(auth, email);
-      setMessage("Password reset email sent. Check your inbox.");
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("Admin login successful");
+      setEmail('');
+      setPassword('');
+      setMessage('Login successful!');
       setForgotPassword(false);
-
       setTimeout(() => {
         setMessage('');
       }, 3000);
     } catch (error) {
-      console.error("Forgot password error: ", error.message);
-      setMessage("Error: Unable to send reset email. Please try again.");
-      
-      setTimeout(() => {
-        setMessage('');
-      }, 3000);
-    }
-  }
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-
-      console.log("Admin login successful");
-
-      setEmail('');
-      setPassword('');
-
-      setMessage('Login successful!');
-      setForgotPassword(false);
-
-      setTimeout(() => {
-        setMessage('');
-      }, 3000);
-    } catch(error) {
       console.error("Admin login error: ", error.message);
-
       setForgotPassword(true);
       let errorMessage = "Login failed. Please check your email and password.";
-
       switch (error.code) {
         case "auth/invalid-email":
           errorMessage = "Invalid email address.";
@@ -59,18 +31,31 @@ const AdminLoginForm = () => {
         default:
           break;
       }
-
       setMessage(errorMessage);
-
       setTimeout(() => {
         setMessage('');
       }, 3000);
     }
   };
-
+  const onResetPassword = async (e) => {
+    e.preventDefault();
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMessage("Password reset email sent. Check your inbox.");
+      setForgotPassword(false);
+      setTimeout(() => {
+        setMessage('');
+      }, 3000);
+    } catch (error) {
+      console.error("Forgot password error: ", error.message);
+      setMessage("Error: Unable to send reset email. Please try again.");
+      setTimeout(() => {
+        setMessage('');
+      }, 3000);
+    }
+  }
   return (
-    <div className="App">
-      <h2>Admin Login</h2>
+    <div className= "App">
       <form className="initialFormInput">
         <input
           type="text"
@@ -80,7 +65,7 @@ const AdminLoginForm = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type="text"
+          type="password" // Changed to password for security
           name="password"
           placeholder="Enter password"
           value={password}
@@ -91,7 +76,6 @@ const AdminLoginForm = () => {
         </button>
         {message && <p className="message">{message}</p>}
       </form>
-
       {forgotPassword && (
         <div>
           <p>Forgot your password?</p>
@@ -110,7 +94,6 @@ const AdminLoginForm = () => {
         </div>
       )}
     </div>
-  )
-}
-
+  );
+};
 export default AdminLoginForm;
