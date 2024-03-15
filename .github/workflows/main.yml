@@ -1,0 +1,20 @@
+            - name: Firebase Deployment
+  # You may pin to the exact commit or the version.
+  # uses: sws2apps/firebase-deployment@354a91d7bdc88e4dcb2c84774f7438c5a9276dce
+  uses: sws2apps/firebase-deployment@v3.5.0
+  with:
+    # The full identifier of the Workload Identity Provider, including the project number, pool name, and provider name. This must be the full identifier which includes all parts
+    workloadIdentityProvider: 
+    # Email address or unique identifier of the Google Cloud service account for which to generate credentials
+    serviceAccount: 
+    # Name of the firebase project you will deploy the site
+    project: 
+    # Path to the firebase.json config file
+    config: # optional
+    # Deploy only firebase functions
+    function: # optional
+    # Deploy only hosting site
+    hosting: # optional
+    # NodeJS Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+    node-version: # optional, default is current
+          
