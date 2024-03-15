@@ -4,6 +4,8 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import RegistrationForm from './components/RegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
+import PatientInfoForm from './components/PatientInfoForm'; // Import PatientInfoForm
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
@@ -22,6 +24,7 @@ function App() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [showAdminLoginForm, setShowAdminLoginForm] = useState(false);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const [showPatientInfoForm, setShowPatientInfoForm] = useState(false); // New state for PatientInfoForm visibility
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -30,17 +33,24 @@ function App() {
     return unsubscribe; // Cleanup function
   }, []);
 
-
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
     setShowRegistrationForm(false);
+    setShowPatientInfoForm(false); // Hide PatientInfoForm when showing AdminLogin
   };
 
   const handleRegistrationButtonClick = () => {
     setShowRegistrationForm(true);
     setShowAdminLoginForm(false);
+    setShowPatientInfoForm(false); // Hide PatientInfoForm when showing RegistrationForm
   };
   
+  const handlePatientInfoButtonClick = () => {
+    setShowPatientInfoForm(true); // Show PatientInfoForm
+    setShowRegistrationForm(false);
+    setShowAdminLoginForm(false);
+  };
+
   const handleAdminLogout = () => {
     signOut(auth)
       .then(() => {
@@ -58,6 +68,7 @@ function App() {
         <>
           <button onClick={handleAdminButtonClick}>Admin Login</button>
           <button onClick={handleRegistrationButtonClick}>Register</button>
+          <button onClick={handlePatientInfoButtonClick}>Patient Info</button> {/* Button to show PatientInfoForm */}
         </>
       )}
       {showAdminLoginForm && !isAdminLoggedIn && (
@@ -71,6 +82,9 @@ function App() {
         <button className="logoutButton" onClick={handleAdminLogout}>
           Sign Off
         </button>
+      )}
+      {showPatientInfoForm && !isAdminLoggedIn && (
+        <PatientInfoForm /> // Display the PatientInfoForm based on state
       )}
     </div>
   );
