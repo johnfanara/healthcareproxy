@@ -75,6 +75,6 @@ function App() {
         </button>
       )}
     </div>
-  );
+  )};
 }
 export { auth, App as default };
