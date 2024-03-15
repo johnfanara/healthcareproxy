@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 
+
 const AdminReportForm = () => {
   const [patientId, setPatientId] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [prescription, setPrescription] = useState('');
   const [visitDescription, setVisitDescription] = useState('');
+
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,8 +23,8 @@ const AdminReportForm = () => {
   };
 
   return (
-    <div className="report-form-container">
-      <h1 className="heading">Admin Report Generator</h1>
+    <div className= "report-form-container">
+      <h1 className="heading">Patient Notes</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

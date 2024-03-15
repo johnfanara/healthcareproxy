@@ -57,6 +57,15 @@
     background: linear-gradient(to right, rgb(22, 111, 156), rgb(90, 169, 195) );
   }
 
+  .logoutButton {
+    padding: 10px;
+    margin: 5px;
+    background-color: (rgb(67, 130, 161) );
+  
+    color: rgb(233, 133, 133);
+    cursor: pointer;
+  }
+
   /*error and auth message box*/
   .message {
     padding: 10px;

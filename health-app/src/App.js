@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import RegistrationForm from './components/RegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
-import PatientInfoForm from './components/PatientInfoForm'; // Ensure this import is correct
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
@@ -18,23 +18,19 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
 function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [showAdminLoginForm, setShowAdminLoginForm] = useState(false);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
 
-<<<<<<< HEAD
-  // Event handlers for showing different forms
-  const handlePatientButtonClick = () => {
-    setShowPatientLoginForm(true);
-    setShowAdminLoginForm(false);
-    setShowRegistrationForm(false);
-  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAdminLoggedIn(!!user);
+    });
+    return unsubscribe; // Cleanup function
+  }, []);
 
-=======
->>>>>>> 817989905f86b43b1b3d7eff15722f6bba3a8608
+
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
     setShowRegistrationForm(false);
@@ -44,83 +40,41 @@ function App() {
     setShowRegistrationForm(true);
     setShowAdminLoginForm(false);
   };
-
-  // Event handler for email input change
-  const handleEmailInput = (event) => {
-    setEmail(event.target.value);
+  
+  const handleAdminLogout = () => {
+    signOut(auth)
+      .then(() => {
+        setIsAdminLoggedIn(false);
+      })
+      .catch((error) => {
+        console.error("Error during logout: ", error.message);
+      });
+  const handleRegistrationButtonClick = () => {
+    setShowRegistrationForm(true);
+    setShowAdminLoginForm(false);
   };
 
-  // Event handler for password input change
-  const handlePasswordInput = (event) => {
-    setPassword(event.target.value);
-  };
-
-<<<<<<< HEAD
-  return (
-    <div>
-      <div className="App">
-        <h1 className="heading">Healthcare Proxy</h1>
-        <button onClick={handlePatientButtonClick}>Patient Login</button>
-=======
-  const handleAdminLogin = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("Admin logged in successfully");
-    } catch (error) {
-      console.error("Admin login error: ", error.message);
-    }
-  };
-
-  return (
-    <div>
-      <div className="App">
-        <h1 className="heading">
-          Healthcare Proxy
-        </h1>
->>>>>>> 817989905f86b43b1b3d7eff15722f6bba3a8608
-        <button onClick={handleAdminButtonClick}>Admin Login</button>
-        <button onClick={handleRegistrationButtonClick}>Register</button>
-      </div>
-
-<<<<<<< HEAD
-      {showPatientLoginForm && (
-        <PatientLoginForm
-          handleEmailInput={handleEmailInput}
-          handlePasswordInput={handlePasswordInput}
-        />
+    <div className="App">
+      <h1 className="heading">Healthcare Proxy</h1>
+      {!isAdminLoggedIn && (
+        <>
+          <button onClick={handleAdminButtonClick}>Admin Login</button>
+          <button onClick={handleRegistrationButtonClick}>Register</button>
+        </>
       )}
-
-=======
->>>>>>> 817989905f86b43b1b3d7eff15722f6bba3a8608
-      {showAdminLoginForm && (
-        <AdminLoginForm
-          auth={auth}
-          handleEmailInput={handleEmailInput}
-          handlePasswordInput={handlePasswordInput}
-<<<<<<< HEAD
-=======
-          handleLogin={handleAdminLogin}
->>>>>>> 817989905f86b43b1b3d7eff15722f6bba3a8608
-        />
+      {showAdminLoginForm && !isAdminLoggedIn && (
+        <AdminLoginForm />
       )}
-
-      {showRegistrationForm && (
-        <RegistrationForm
-          auth={auth}
-          handleEmailInput={handleEmailInput}
-          handlePasswordInput={handlePasswordInput}
-<<<<<<< HEAD
-        />
-=======
-          />
->>>>>>> 817989905f86b43b1b3d7eff15722f6bba3a8608
+      {showRegistrationForm && !isAdminLoggedIn && (
+        <RegistrationForm />
       )}
-
-      {/* PatientInfoForm is always visible as per requirement */}
-      <PatientInfoForm />
-      <AdminReportForm />
+      {isAdminLoggedIn && <AdminReportForm />}
+      {isAdminLoggedIn && (
+        <button className="logoutButton" onClick={handleAdminLogout}>
+          Sign Off
+        </button>
+      )}
     </div>
   );
 }
-
 export { auth, App as default };
