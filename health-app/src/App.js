@@ -5,7 +5,6 @@ import RegistrationForm from './components/RegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
   authDomain: "healthcareproxy-df31e.firebaseapp.com",
@@ -18,6 +17,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 function App() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [showAdminLoginForm, setShowAdminLoginForm] = useState(false);
@@ -49,11 +49,9 @@ function App() {
       .catch((error) => {
         console.error("Error during logout: ", error.message);
       });
-  const handleRegistrationButtonClick = () => {
-    setShowRegistrationForm(true);
-    setShowAdminLoginForm(false);
   };
 
+  return (
     <div className="App">
       <h1 className="heading">Healthcare Proxy</h1>
       {!isAdminLoggedIn && (
@@ -77,4 +75,5 @@ function App() {
     </div>
   );
 }
+
 export { auth, App as default };
