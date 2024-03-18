@@ -3,6 +3,7 @@
 import '../index.css';
 import React, {useState} from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { auth } from '../App';
 
 const RegistrationForm = () => {
@@ -10,13 +11,18 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const db = getFirestore() ;
 
   const onSubmit = async (e) => {
     e.preventDefault();
     
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(auth, email, password); //creates user for firebase authentication
       
+      await addDoc (collection(db, 'users'), {
+        email: user.email
+      }); //stores user email in database
+
       console.log('Registration successful');
       setEmail('');
       setPassword('');
