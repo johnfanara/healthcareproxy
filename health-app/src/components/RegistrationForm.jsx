@@ -3,7 +3,7 @@
 import '../index.css';
 import React, {useState} from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit} from 'firebase/firestore';
 import { auth } from '../App';
 
 const RegistrationForm = () => {
@@ -11,6 +11,7 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+
   const db = getFirestore() ;
 
   const onSubmit = async (e) => {
@@ -18,10 +19,23 @@ const RegistrationForm = () => {
     
     try {
       const { user } = await createUserWithEmailAndPassword(auth, email, password); //creates user for firebase authentication
+
+      const adminsCol = collection(db, 'admins');
+      const q = query(adminsCol, orderBy('id', 'desc'), limit(1));
+      const querySnapshot = await getDocs(q);
+
+      let nextAdminId = 'admin-01';
       
-      await addDoc (collection(db, 'users'), {
+      if (!querySnapshot.empty) {
+        const lastVisible = querySnapshot.docs[0];
+        const currentIdNumber = parseInt(lastVisible.id.replace('admin-', ''), 10);
+        const nextIdNumber = currentIdNumber + 1;
+        nextAdminId = `admin-${nextIdNumber.toString().padStart(2, '0')}`;
+      }
+
+      await setDoc(doc(adminsCol, nextAdminId), {
         email: user.email
-      }); //stores user email in database
+      });
 
       console.log('Registration successful');
       setEmail('');
