@@ -6,8 +6,9 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit} from 'firebase/firestore';
 import { auth } from '../App';
 
-const RegistrationForm = () => {
-  
+const AdminRegistrationForm = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -27,19 +28,26 @@ const RegistrationForm = () => {
       let nextAdminId = 'admin-01';
       
       if (!querySnapshot.empty) {
-        const lastVisible = querySnapshot.docs[0];
+        const lastVisible = querySnapshot.docs[0].data();
         const currentIdNumber = parseInt(lastVisible.id.replace('admin-', ''), 10);
         const nextIdNumber = currentIdNumber + 1;
         nextAdminId = `admin-${nextIdNumber.toString().padStart(2, '0')}`;
       }
+      
+      const adminRef = doc(adminsCol, nextAdminId);
 
       await setDoc(doc(adminsCol, nextAdminId), {
-        email: user.email
+        email: user.email,
+        id: nextAdminId,
+        firstName: firstName,
+        lastName: lastName
       });
 
       console.log('Registration successful');
       setEmail('');
       setPassword('');
+      setFirstName('');
+      setLastName('');
 
       setMessage('Registration successful!');
       
@@ -72,8 +80,22 @@ const RegistrationForm = () => {
 
     return (
       <div className="App">
-        <h2>Register</h2> 
+        <h2>Register New Admin</h2> 
         <form className="initialFormInput">
+        <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+              placeholder="First Name" 
+        />
+        <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+              placeholder="Last Name" 
+        />
         <input
               type="email"
               value={email}
@@ -96,4 +118,4 @@ const RegistrationForm = () => {
   )
 }
 
-  export default RegistrationForm
+  export default AdminRegistrationForm
