@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import RegistrationForm from './components/RegistrationForm';
+import AdminRegistrationForm from './components/AdminRegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
 import PatientInfoForm from './components/PatientInfoForm'; // Import PatientInfoForm
-
+import PatientLoginForm from './components/PatientLoginForm';
+import PatientRegistrationForm from './components/PatientRegistrationForm';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
@@ -21,40 +22,65 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 function App() {
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [showAdminLoginForm, setShowAdminLoginForm] = useState(false);
-  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const [showAdminRegistrationForm, setShowAdminRegistrationForm] = useState(false);
   const [showPatientInfoForm, setShowPatientInfoForm] = useState(false); // New state for PatientInfoForm visibility
-
+  const [showPatientLoginForm, setShowPatientLoginForm] = useState(false);
+  const [showPatientRegistrationForm, setShowPatientRegistrationForm] = useState(false);
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsAdminLoggedIn(!!user);
+      setIsUserLoggedIn(!!user);
     });
     return unsubscribe; // Cleanup function
   }, []);
 
+
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
-    setShowRegistrationForm(false);
+    setShowAdminRegistrationForm(false);
     setShowPatientInfoForm(false); // Hide PatientInfoForm when showing AdminLogin
+    setShowPatientLoginForm(false);
+    setShowPatientRegistrationForm(false);
   };
 
-  const handleRegistrationButtonClick = () => {
-    setShowRegistrationForm(true);
+  const handleAdminRegistrationButtonClick = () => {
+    setShowAdminRegistrationForm(true);
     setShowAdminLoginForm(false);
     setShowPatientInfoForm(false); // Hide PatientInfoForm when showing RegistrationForm
+    setShowPatientLoginForm(false);
+    setShowPatientRegistrationForm(false);
   };
   
   const handlePatientInfoButtonClick = () => {
     setShowPatientInfoForm(true); // Show PatientInfoForm
-    setShowRegistrationForm(false);
+    setShowAdminRegistrationForm(false);
     setShowAdminLoginForm(false);
+    setShowPatientLoginForm(false);
+    setShowPatientRegistrationForm(false);
   };
 
-  const handleAdminLogout = () => {
+  const handlePatientLoginButtonClick = () => {
+    setShowPatientLoginForm(true);
+    setShowAdminLoginForm(false);
+    setShowAdminRegistrationForm(false);
+    setShowPatientInfoForm(false);
+    setShowPatientRegistrationForm(false);
+  };
+
+  const handlePatientRegistrationButtonClick = () => {
+    setShowPatientRegistrationForm(true);
+    setShowPatientLoginForm(false);
+    setShowAdminLoginForm(false);
+    setShowAdminRegistrationForm(false);
+    setShowPatientInfoForm(false);
+  }
+
+  const handleUserLogout = () => {
     signOut(auth)
       .then(() => {
-        setIsAdminLoggedIn(false);
+        setIsUserLoggedIn(false);
       })
       .catch((error) => {
         console.error("Error during logout: ", error.message);
@@ -64,26 +90,34 @@ function App() {
   return (
     <div className="App">
       <h1 className="heading">Healthcare Proxy</h1>
-      {!isAdminLoggedIn && (
+      {!isUserLoggedIn && (
         <>
           <button onClick={handleAdminButtonClick}>Admin Login</button>
-          <button onClick={handleRegistrationButtonClick}>Register</button>
-          <button onClick={handlePatientInfoButtonClick}>Patient Info</button> {/* Button to show PatientInfoForm */}
+          <button onClick={handlePatientLoginButtonClick}>Patient Login</button>
+          <button onClick={handleAdminRegistrationButtonClick}>Register Admin</button>
+          <button onClick={handlePatientRegistrationButtonClick}>Register Patient</button>
+          <button onClick={handlePatientInfoButtonClick}>Patient Info</button>
         </>
       )}
-      {showAdminLoginForm && !isAdminLoggedIn && (
+      {showAdminLoginForm && !isUserLoggedIn && (
         <AdminLoginForm />
       )}
-      {showRegistrationForm && !isAdminLoggedIn && (
-        <RegistrationForm />
+      {showPatientLoginForm && !isUserLoggedIn && (
+        <PatientLoginForm />
       )}
-      {isAdminLoggedIn && <AdminReportForm />}
-      {isAdminLoggedIn && (
-        <button className="logoutButton" onClick={handleAdminLogout}>
+      {showAdminRegistrationForm && !isUserLoggedIn && (
+        <AdminRegistrationForm />
+      )}
+      {showPatientRegistrationForm && !isUserLoggedIn && (
+        <PatientRegistrationForm />
+      )}
+      {isUserLoggedIn && <AdminReportForm />}
+      {isUserLoggedIn && (
+        <button className="logoutButton" onClick={handleUserLogout}>
           Sign Off
         </button>
       )}
-      {showPatientInfoForm && !isAdminLoggedIn && (
+      {showPatientInfoForm && !isUserLoggedIn && (
         <PatientInfoForm /> // Display the PatientInfoForm based on state
       )}
     </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../App';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
 const AdminLoginForm = () => {
   const [email, setEmail] = useState('');
@@ -8,10 +9,26 @@ const AdminLoginForm = () => {
   const [message, setMessage] = useState('');
   const [forgotPassword, setForgotPassword] = useState(false);
   
+  const db = getFirestore();
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    const adminsCol = collection(db, 'admins');
+    const q = query(adminsCol, where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      setMessage('Login failed. You are not a registered admin.');
+      setTimeout(() => {
+        setMessage('');
+      }, 3000);
+      return;
+    }
+    
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      
       console.log("Admin login successful");
       setEmail('');
       setPassword('');
