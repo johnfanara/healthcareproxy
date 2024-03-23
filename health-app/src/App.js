@@ -8,6 +8,11 @@ import PatientInfoForm from './components/PatientInfoForm'; // Import PatientInf
 import PatientLoginForm from './components/PatientLoginForm';
 import PatientRegistrationForm from './components/PatientRegistrationForm';
 
+import image1 from './images/AdminLoginPic.jpg'; // Import your image files
+import image2 from './images/PatientLoginPic.jpg';
+import image3 from './images/AdminRegisterPic.jpg';
+import image4 from './images/PatientRegisterPic.jpg';
+
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
   authDomain: "healthcareproxy-df31e.firebaseapp.com",
@@ -92,10 +97,26 @@ function App() {
       <h1 className="heading">Healthcare Proxy</h1>
       {!isUserLoggedIn && (
         <>
-          <button onClick={handleAdminButtonClick}>Admin Login</button>
-          <button onClick={handlePatientLoginButtonClick}>Patient Login</button>
-          <button onClick={handleAdminRegistrationButtonClick}>Register Admin</button>
-          <button onClick={handlePatientRegistrationButtonClick}>Register Patient</button>
+        <div className="button-container">
+  <div className="button-img-container" onClick={handleAdminButtonClick}>
+    <img src={image1} alt="Admin Login" />
+    <span>Admin Login</span>
+  </div>
+  <div className="button-img-container" onClick={handlePatientLoginButtonClick}>
+    <img src={image2} alt="Patient Login" />
+    <span>Patient Login</span>
+  </div>
+  <div className="button-img-container" onClick={handleAdminRegistrationButtonClick}>
+    <img src={image3} alt="Register Admin" />
+    <span>Register Admin</span>
+  </div>
+  <div className="button-img-container" onClick={handlePatientRegistrationButtonClick}>
+    <img src={image4} alt="Register Patient" />
+    <span>Register Patient</span>
+  </div>
+</div>
+
+
           <button onClick={handlePatientInfoButtonClick}>Patient Info</button>
         </>
       )}
