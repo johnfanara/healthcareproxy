@@ -80,7 +80,7 @@ const AdminRegistrationForm = () => {
 
     return (
       <div className="App">
-        <h2>Register New Admin</h2> 
+        <h2>Register Administrator</h2> 
         <form className="initialFormInput">
         <input
               type="text"

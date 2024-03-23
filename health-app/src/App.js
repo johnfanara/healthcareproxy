@@ -112,6 +112,8 @@ function App() {
         <PatientRegistrationForm />
       )}
       {isUserLoggedIn && <AdminReportForm />}
+
+      
       {isUserLoggedIn && (
         <button className="logoutButton" onClick={handleUserLogout}>
           Sign Off
@@ -119,7 +121,7 @@ function App() {
       )}
       {showPatientInfoForm && !isUserLoggedIn && (
         <PatientInfoForm /> // Display the PatientInfoForm based on state
-      )}
+       )}
     </div>
   );
 }
