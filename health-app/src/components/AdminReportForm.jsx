@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { getFirestore, collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 
-
 const AdminReportForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [prescription, setPrescription] = useState('');
   const [visitDescription, setVisitDescription] = useState('');
+  const [appointmentType, setAppointmentType] = useState('');
+  const [otherAppointmentType, setOtherAppointmentType] = useState('');
   const [message, setMessage] = useState('');
-
+  
   const db = getFirestore();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-     
       // Query the patient based on firstName and lastName
       const querySnapshot = await getPatients(firstName, lastName);
     
@@ -24,42 +24,43 @@ const AdminReportForm = () => {
         return;
       }
 
-      
       // Assuming there's only one patient with the provided details
       const patientId = querySnapshot.docs[0].id;
-      console.log(patientId);
-     // Get the patient notes collection
+      
+      // Get the patient notes collection
       const patientNotesCol = collection(db, `patients/${patientId}/patient-notes`);
 
       // Query patient notes to get the count
       const notesQuerySnapshot = await getDocs(patientNotesCol);
       const numberOfNotes = notesQuerySnapshot.size;
 
-
       // Generate next patient note ID
       const nextNoteId = `patient-notes-${numberOfNotes.toString().padStart(2, '0')}`;
 
-
       // Create visit note document
-      await addDoc(patientNotesCol, nextNoteId, {
+      await addDoc(patientNotesCol, {
         id: nextNoteId,
         firstName,
         lastName,
         prescription,
-        visitDescription
+        visitDescription,
+        appointmentType: appointmentType === 'Other' ? otherAppointmentType : appointmentType
       });
-    
+
+      // Reset form fields
       setFirstName('');
       setLastName('');
       setPrescription('');
       setVisitDescription('');
+      setAppointmentType('');
+      setOtherAppointmentType('');
 
       setMessage('New visit note added successfully!');
 
-      setTimeout(() =>{
+      // Reset message after 3 seconds
+      setTimeout(() => {
         setMessage('');
       }, 3000);
-
     } catch (error) {
       console.error('Error adding visit note:', error);
       setMessage('Failed to add visit note. Please try again.');
@@ -84,6 +85,10 @@ const AdminReportForm = () => {
       console.error('Error fetching patients:', error);
       throw error; // You might want to handle this error in your UI
     }
+  };
+
+  const handleAppointmentTypeChange = (event) => {
+    setAppointmentType(event.target.value);
   };
 
   return (
@@ -117,6 +122,115 @@ const AdminReportForm = () => {
           value={visitDescription}
           onChange={(e) => setVisitDescription(e.target.value)}
         />
+        <div className="appointment-type-container">
+          <label>
+            <input
+              type="radio"
+              value="General Check-up"
+              checked={appointmentType === 'General Check-up'}
+              onChange={handleAppointmentTypeChange}
+            />
+            General Check-up
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Dental Appointment"
+              checked={appointmentType === 'Dental Appointment'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Dental Appointment
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Eye Check-up"
+              checked={appointmentType === 'Eye Check-up'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Eye Check-up
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Physical Therapy Session"
+              checked={appointmentType === 'Physical Therapy Session'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Physical Therapy Session
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Psychiatrist Appointment"
+              checked={appointmentType === 'Psychiatrist Appointment'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Psychiatrist Appointment
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Dermatology Appointment"
+              checked={appointmentType === 'Dermatology Appointment'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Dermatology Appointment
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Gynecology Appointment"
+              checked={appointmentType === 'Gynecology Appointment'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Gynecology Appointment
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Orthopedic Appointment"
+              checked={appointmentType === 'Orthopedic Appointment'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Orthopedic Appointment
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Urology Appointment"
+              checked={appointmentType === 'Urology Appointment'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Urology Appointment
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Cardiology Appointment"
+              checked={appointmentType === 'Cardiology Appointment'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Cardiology Appointment
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Other"
+              checked={appointmentType === 'Other'}
+              onChange={handleAppointmentTypeChange}
+            />
+            Other
+          </label>
+          {appointmentType === 'Other' && (
+            <input
+              type="text"
+              placeholder="Other Appointment Type"
+              value={otherAppointmentType}
+              onChange={(e) => setOtherAppointmentType(e.target.value)}
+            />
+          )}
+        </div>
         <button type="submit">Submit Report</button>
       </form>
       {message && <p>{message}</p>}
@@ -125,4 +239,9 @@ const AdminReportForm = () => {
 };
 
 export default AdminReportForm;
+
+
+
+
+
 
