@@ -4,7 +4,6 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import AdminRegistrationForm from './components/AdminRegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
-import PatientInfoForm from './components/PatientInfoForm'; // Import PatientInfoForm
 import PatientLoginForm from './components/PatientLoginForm';
 import PatientRegistrationForm from './components/PatientRegistrationForm';
 import PatientSearch from './components/PatientSearch'; // Import the new PatientSearch component
@@ -32,7 +31,6 @@ function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [showAdminLoginForm, setShowAdminLoginForm] = useState(false);
   const [showAdminRegistrationForm, setShowAdminRegistrationForm] = useState(false);
-  const [showPatientInfoForm, setShowPatientInfoForm] = useState(false); // New state for PatientInfoForm visibility
   const [showPatientLoginForm, setShowPatientLoginForm] = useState(false);
   const [showPatientRegistrationForm, setShowPatientRegistrationForm] = useState(false);
   
@@ -47,7 +45,6 @@ function App() {
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
     setShowAdminRegistrationForm(false);
-    setShowPatientInfoForm(false); // Hide PatientInfoForm when showing AdminLogin
     setShowPatientLoginForm(false);
     setShowPatientRegistrationForm(false);
   };
@@ -55,24 +52,16 @@ function App() {
   const handleAdminRegistrationButtonClick = () => {
     setShowAdminRegistrationForm(true);
     setShowAdminLoginForm(false);
-    setShowPatientInfoForm(false); // Hide PatientInfoForm when showing RegistrationForm
     setShowPatientLoginForm(false);
     setShowPatientRegistrationForm(false);
   };
   
-  const handlePatientInfoButtonClick = () => {
-    setShowPatientInfoForm(true); // Show PatientInfoForm
-    setShowAdminRegistrationForm(false);
-    setShowAdminLoginForm(false);
-    setShowPatientLoginForm(false);
-    setShowPatientRegistrationForm(false);
-  };
+  
 
   const handlePatientLoginButtonClick = () => {
     setShowPatientLoginForm(true);
     setShowAdminLoginForm(false);
     setShowAdminRegistrationForm(false);
-    setShowPatientInfoForm(false);
     setShowPatientRegistrationForm(false);
   };
 
@@ -81,7 +70,6 @@ function App() {
     setShowPatientLoginForm(false);
     setShowAdminLoginForm(false);
     setShowAdminRegistrationForm(false);
-    setShowPatientInfoForm(false);
   }
 
   const handleUserLogout = () => {
@@ -119,7 +107,7 @@ function App() {
 </div>
 
 
-          <button onClick={handlePatientInfoButtonClick}>Patient Info</button>
+        
         </>
       )}
       {showAdminLoginForm && !isUserLoggedIn && (
@@ -142,9 +130,7 @@ function App() {
           Sign Off
         </button>
       )}
-      {showPatientInfoForm && !isUserLoggedIn && (
-        <PatientInfoForm /> // Display the PatientInfoForm based on state
-       )}
+      
 
 {isUserLoggedIn && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
     
