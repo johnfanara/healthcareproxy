@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getFirestore, collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, query, where, setDoc, doc} from 'firebase/firestore';
 
 const AdminReportForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -18,14 +18,25 @@ const AdminReportForm = () => {
     try {
       // Query the patient based on firstName and lastName
       const querySnapshot = await getPatients(firstName, lastName);
-    
-      if (querySnapshot.empty) {
-        setMessage('Patient not found. Please check the details and try again.');
-        return;
-      }
+      
+      let patientId;
 
-      // Assuming there's only one patient with the provided details
-      const patientId = querySnapshot.docs[0].id;
+      if (querySnapshot.empty) {
+        const patientsCol = collection(db, 'patients');
+        const patientDocs = await getDocs(patientsCol);
+        const patientNumber = patientDocs.size;
+        const newPatientId = `patient-${patientNumber.toString().padStart(2, '0')}`;
+
+        const newPatientRef = await addDoc (patientsCol, {
+          id: newPatientId,
+          firstName: firstName,
+          lastName: lastName
+        });
+        
+        patientId = newPatientRef.id;
+      } else {
+        patientId = querySnapshot.docs[0].id;
+      }
       
       // Get the patient notes collection
       const patientNotesCol = collection(db, `patients/${patientId}/patient-notes`);
@@ -36,15 +47,15 @@ const AdminReportForm = () => {
 
       // Generate next patient note ID
       const nextNoteId = `patient-notes-${numberOfNotes.toString().padStart(2, '0')}`;
-
+      
+      const newNoteRef = doc(patientNotesCol, nextNoteId);
       // Create visit note document
-      await addDoc(patientNotesCol, {
+      await setDoc(newNoteRef, {
         id: nextNoteId,
-        firstName,
-        lastName,
         prescription,
         visitDescription,
-        appointmentType: appointmentType === 'Other' ? otherAppointmentType : appointmentType
+        appointmentType: appointmentType === 'Other' ? otherAppointmentType : appointmentType,
+        appointmentDate: new Date()
       });
 
       // Reset form fields
