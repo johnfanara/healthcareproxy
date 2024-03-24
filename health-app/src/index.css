@@ -84,10 +84,67 @@
   }
 
 
-/* Add this CSS block to your existing CSS file */
+/*Styling of the Admin Report appointment radio buttons*/
+
 .appointment-type-container label {
   display: block;
   margin-bottom: 10px;
   color: white;
   font-weight: bold;
+}
+/*This block controls app.js buttons*/
+
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  justify-items: center;
+  align-items: center;
+  grid-gap: 20px;
+}
+
+.button-container .button-img-container {
+  width: 150px; /* Set the width of the container */
+  height: 150px; /* Set the height of the container */
+  border: 5px solid goldenrod; /* Add goldenrod border */
+  border-radius: 8px; /* Add border radius */
+  overflow: hidden; /* Ensure images stay within container */
+}
+
+.button-container .button-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure image covers the entire container */
+}
+
+.button-container .button-img-container:hover {
+  border-color: rgb(90, 66, 5); /* Change border color on hover */
+}
+
+
+.button-img-container {
+  position: relative; /* Ensure proper positioning of the text label */
+}
+
+.button-img-container span {
+  position: absolute;
+  bottom: 5px; /* Adjust as needed */
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 22px; /* Adjust font size as needed */
+  color: rgb(251, 142, 0); /* Adjust color as needed */
+  font-weight: bold; /* Make the font bold */
+  text-shadow: 1px 1px .25px rgb(1, 19, 26); /* Add black text shadow */
+}
+
+
+
+
+/* Media query for larger screens */
+@media screen and (min-width: 768px) {
+  .button-container img {
+    max-width: none; /* Remove maximum width */
+    max-height: none; /* Remove maximum height */
+    width: auto; /* Allow button to expand horizontally */
+  }
 }
