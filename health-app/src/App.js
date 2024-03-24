@@ -55,11 +55,8 @@ function App() {
     setShowPatientLoginForm(false);
     setShowPatientRegistrationForm(false);
   };
-<<<<<<< HEAD
   
   
-=======
->>>>>>> 4ab1e1abcdb7fcc0ab78b6543919b4e81cc676f6
 
   const handlePatientLoginButtonClick = () => {
     setShowPatientLoginForm(true);
@@ -108,12 +105,9 @@ function App() {
     <span>Register Patient</span>
   </div>
 </div>
-<<<<<<< HEAD
 
 
         
-=======
->>>>>>> 4ab1e1abcdb7fcc0ab78b6543919b4e81cc676f6
         </>
       )}
       {showAdminLoginForm && !isUserLoggedIn && (
@@ -136,10 +130,7 @@ function App() {
           Sign Off
         </button>
       )}
-<<<<<<< HEAD
       
-=======
->>>>>>> 4ab1e1abcdb7fcc0ab78b6543919b4e81cc676f6
 
 {isUserLoggedIn && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
     
