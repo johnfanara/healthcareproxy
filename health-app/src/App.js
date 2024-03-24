@@ -7,6 +7,8 @@ import AdminLoginForm from './components/AdminLoginForm';
 import PatientInfoForm from './components/PatientInfoForm'; // Import PatientInfoForm
 import PatientLoginForm from './components/PatientLoginForm';
 import PatientRegistrationForm from './components/PatientRegistrationForm';
+import PatientSearch from './components/PatientSearch'; // Import the new PatientSearch component
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
@@ -122,7 +124,12 @@ function App() {
       {showPatientInfoForm && !isUserLoggedIn && (
         <PatientInfoForm /> // Display the PatientInfoForm based on state
        )}
+
+{isUserLoggedIn && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
+    
     </div>
+
+    
   );
 }
 
