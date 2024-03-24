@@ -84,3 +84,10 @@
   }
 
 
+/* Add this CSS block to your existing CSS file */
+.appointment-type-container label {
+  display: block;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: bold;
+}
