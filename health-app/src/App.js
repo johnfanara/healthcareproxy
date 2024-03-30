@@ -7,6 +7,7 @@ import AdminLoginForm from './components/AdminLoginForm';
 import PatientLoginForm from './components/PatientLoginForm';
 import PatientRegistrationForm from './components/PatientRegistrationForm';
 import PatientSearch from './components/PatientSearch'; // Import the new PatientSearch component
+import PatientInfoForm from './components/PatientInfoForm';
 
 
 import image1 from './images/AdminLoginPic.jpg'; // Import your image files
@@ -33,14 +34,15 @@ function App() {
   const [showAdminRegistrationForm, setShowAdminRegistrationForm] = useState(false);
   const [showPatientLoginForm, setShowPatientLoginForm] = useState(false);
   const [showPatientRegistrationForm, setShowPatientRegistrationForm] = useState(false);
-  
+  const [userEmail, setUserEmail] = useState('');
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsUserLoggedIn(!!user);
+      setUserEmail(user ? user.email : '');
     });
     return unsubscribe; // Cleanup function
   }, []);
-
 
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
@@ -55,8 +57,6 @@ function App() {
     setShowPatientLoginForm(false);
     setShowPatientRegistrationForm(false);
   };
-  
-  
 
   const handlePatientLoginButtonClick = () => {
     setShowPatientLoginForm(true);
@@ -88,55 +88,50 @@ function App() {
       {!isUserLoggedIn && (
         <>
         <div className="button-container">
-  <div className="button-img-container" onClick={handleAdminButtonClick}>
-    <img src={image1} alt="Admin Login" />
-    <span>Admin Login</span>
-  </div>
-  <div className="button-img-container" onClick={handlePatientLoginButtonClick}>
-    <img src={image2} alt="Patient Login" />
-    <span>Patient Login</span>
-  </div>
-  <div className="button-img-container" onClick={handleAdminRegistrationButtonClick}>
-    <img src={image3} alt="Register Admin" />
-    <span>Register Admin</span>
-  </div>
-  <div className="button-img-container" onClick={handlePatientRegistrationButtonClick}>
-    <img src={image4} alt="Register Patient" />
-    <span>Register Patient</span>
-  </div>
-</div>
-
-
-        
-        </>
-      )}
-      {showAdminLoginForm && !isUserLoggedIn && (
-        <AdminLoginForm />
-      )}
-      {showPatientLoginForm && !isUserLoggedIn && (
-        <PatientLoginForm />
-      )}
-      {showAdminRegistrationForm && !isUserLoggedIn && (
-        <AdminRegistrationForm />
-      )}
-      {showPatientRegistrationForm && !isUserLoggedIn && (
-        <PatientRegistrationForm />
-      )}
-      {isUserLoggedIn && <AdminReportForm />}
-
-      
-      {isUserLoggedIn && (
-        <button className="logoutButton" onClick={handleUserLogout}>
-          Sign Off
-        </button>
-      )}
-      
-
-{isUserLoggedIn && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
-    
+          <div className="button-img-container" onClick={handleAdminButtonClick}>
+          <img src={image1} alt="Admin Login" />
+          <span>Admin Login</span>
+        </div>
+        <div className="button-img-container" onClick={handlePatientLoginButtonClick}>
+          <img src={image2} alt="Patient Login" />
+          <span>Patient Login</span>
+        </div>
+        <div className="button-img-container" onClick={handleAdminRegistrationButtonClick}>
+          <img src={image3} alt="Register Admin" />
+          <span>Register Admin</span>
+        </div>
+        <div className="button-img-container" onClick={handlePatientRegistrationButtonClick}>
+          <img src={image4} alt="Register Patient" />
+          <span>Register Patient</span>
+        </div>
     </div>
+    </>
+  )}
+    {showAdminLoginForm && !isUserLoggedIn && (
+      <AdminLoginForm />
+    )}
+    {showPatientLoginForm && !isUserLoggedIn && (
+      <PatientLoginForm />
+    )}
+    {showAdminRegistrationForm && !isUserLoggedIn && (
+      <AdminRegistrationForm />
+    )}
+    {showPatientRegistrationForm && !isUserLoggedIn && (
+      <PatientRegistrationForm />
+    )}
+      
+    {isUserLoggedIn && <AdminReportForm />}
 
-    
+    {/*{isUserLoggedIn && <PatientInfoForm email={userEmail}/>}*/}
+
+    {isUserLoggedIn && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
+
+    {isUserLoggedIn && (
+      <button className="logoutButton" onClick={handleUserLogout}>
+        Sign Off
+      </button>
+    )}
+    </div>
   );
 }
 
