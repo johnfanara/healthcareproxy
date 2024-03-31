@@ -34,12 +34,14 @@ function App() {
   const [showAdminRegistrationForm, setShowAdminRegistrationForm] = useState(false);
   const [showPatientLoginForm, setShowPatientLoginForm] = useState(false);
   const [showPatientRegistrationForm, setShowPatientRegistrationForm] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isPatient, setIsPatient] = useState(false);
   const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsUserLoggedIn(!!user);
-      setUserEmail(user ? user.email : '');
+      setUserEmail(user ? user.email:'');
     });
     return unsubscribe; // Cleanup function
   }, []);
@@ -82,6 +84,27 @@ function App() {
       });
   };
 
+  const handleIsAdmin = (adminStatus) => {
+    setIsAdmin(adminStatus);
+  }
+
+  const handleAdminRegistration = (adminStatus) => {
+    setIsUserLoggedIn(true);
+    setIsAdmin(adminStatus);
+  }
+
+  const handleIsPatient = (patientStatus) => {
+    setIsUserLoggedIn(true);
+    setIsAdmin(false);
+    setIsPatient(patientStatus);
+  }
+
+  const handlePatientRegistration = (patientStatus) => {
+    setIsUserLoggedIn(true);
+    setIsAdmin(false);
+    setIsPatient(patientStatus);
+  }
+
   return (
     <div className="App">
       <h1 className="heading">Farmingdale Alliance Medical</h1>
@@ -108,21 +131,25 @@ function App() {
     </>
   )}
     {showAdminLoginForm && !isUserLoggedIn && (
-      <AdminLoginForm />
+      <AdminLoginForm onAdminCheck={handleIsAdmin}/>
     )}
     {showPatientLoginForm && !isUserLoggedIn && (
-      <PatientLoginForm />
+      <PatientLoginForm onPatientCheck={handleIsPatient}/>
     )}
     {showAdminRegistrationForm && !isUserLoggedIn && (
-      <AdminRegistrationForm />
+      <AdminRegistrationForm onAdminRegistered={handleAdminRegistration}/>
     )}
     {showPatientRegistrationForm && !isUserLoggedIn && (
-      <PatientRegistrationForm />
+      <PatientRegistrationForm onPatientRegistered={handlePatientRegistration}/>
     )}
       
-    {isUserLoggedIn && <AdminReportForm />}
+    {isUserLoggedIn && isAdmin && 
+      <AdminReportForm />
+    }
 
-    {/*{isUserLoggedIn && <PatientInfoForm email={userEmail}/>}*/}
+    {isUserLoggedIn && isPatient && 
+      <PatientInfoForm email={ userEmail }/>
+    }
 
     {isUserLoggedIn && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
 
