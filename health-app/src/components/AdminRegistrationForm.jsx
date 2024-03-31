@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit} from 'firebase/firestore';
 import { auth } from '../App';
 
-const AdminRegistrationForm = () => {
+const AdminRegistrationForm = ({ onAdminRegistered }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('')
@@ -33,8 +33,6 @@ const AdminRegistrationForm = () => {
         const nextIdNumber = currentIdNumber + 1;
         nextAdminId = `admin-${nextIdNumber.toString().padStart(2, '0')}`;
       }
-      
-      const adminRef = doc(adminsCol, nextAdminId);
 
       await setDoc(doc(adminsCol, nextAdminId), {
         email: user.email,
@@ -44,6 +42,9 @@ const AdminRegistrationForm = () => {
       });
 
       console.log('Registration successful');
+      
+      onAdminRegistered(true);
+
       setEmail('');
       setPassword('');
       setFirstName('');

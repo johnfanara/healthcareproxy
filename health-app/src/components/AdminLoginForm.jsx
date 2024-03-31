@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/aut
 import { auth } from '../App';
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
-const AdminLoginForm = () => {
+const AdminLoginForm = ({ onAdminCheck }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -18,7 +18,10 @@ const AdminLoginForm = () => {
     const q = query(adminsCol, where('email', '==', email));
     const querySnapshot = await getDocs(q);
     
-    if (querySnapshot.empty) {
+    if (!querySnapshot.empty) {
+      onAdminCheck(true);
+    } else {
+      onAdminCheck(false);
       setMessage('Login failed. You are not a registered admin.');
       setTimeout(() => {
         setMessage('');

@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { auth } from '../App';
 
-const PatientRegistrationForm = () => {
+const PatientRegistrationForm = ({ onPatientRegistered }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -40,6 +40,9 @@ const PatientRegistrationForm = () => {
       });
 
       console.log('Patient registration successful');
+
+      onPatientRegistered(true);
+      
       setEmail('');
       setPassword('');
       setFirstName('');

@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/aut
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import { auth } from '../App';
 
-const PatientLoginForm = () => {
+const PatientLoginForm = ({ onPatientCheck }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -18,7 +18,10 @@ const PatientLoginForm = () => {
         const q = query(patientsCol, where('email', '==', email));
         const querySnapshot = await getDocs(q);
         
-        if (querySnapshot.empty) {
+        if (!querySnapshot.empty) {
+          onPatientCheck(true);
+        } else {
+          onPatientCheck(false);
           setMessage('Login failed. You are not a registered patient.');
           setTimeout(() => {
             setMessage('');
@@ -30,6 +33,7 @@ const PatientLoginForm = () => {
           await signInWithEmailAndPassword(auth, email, password);
           
           console.log("Patient login successful");
+
           setEmail('');
           setPassword('');
           setMessage('Login successful!');
