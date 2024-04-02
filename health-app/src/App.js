@@ -154,10 +154,13 @@ function App() {
     {isUserLoggedIn && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
 
     {isUserLoggedIn && (
-      <button className="logoutButton" onClick={handleUserLogout}>
-        Sign Off
-      </button>
+     <div className="logout-container">
+     <button className="logoutButton" onClick={handleUserLogout}>
+       Log Out
+     </button>
+   </div>
     )}
+
     </div>
   );
 }

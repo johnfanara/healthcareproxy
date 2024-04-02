@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { getFirestore, collection, addDoc, getDocs, query, where, setDoc, doc} from 'firebase/firestore';
 
 const AdminReportForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [prescription, setPrescription] = useState('');
   const [visitDescription, setVisitDescription] = useState('');
   const [appointmentType, setAppointmentType] = useState('');
@@ -17,7 +20,7 @@ const AdminReportForm = () => {
 
     try {
       // Query the patient based on firstName and lastName
-      const querySnapshot = await getPatients(firstName, lastName);
+      const querySnapshot = await getPatients(firstName, lastName, dateOfBirth);
       
       let patientId;
 
@@ -65,6 +68,7 @@ const AdminReportForm = () => {
       setVisitDescription('');
       setAppointmentType('');
       setOtherAppointmentType('');
+      setDateOfBirth('');
 
       setMessage('New visit note added successfully!');
 
@@ -78,13 +82,14 @@ const AdminReportForm = () => {
     }
   };
 
-  const getPatients = async (firstName, lastName) => {
+  const getPatients = async (firstName, lastName, dateOfBirth) => {
     try {
       // Create a query to filter patients based on firstName and lastName
       const q = query(
         collection(db, 'patients'),
         where('firstName', '==', firstName),
-        where('lastName', '==', lastName)
+        where('lastName', '==', lastName),
+        where('dateOfBirth', '==', dateOfBirth)
       );
 
       // Execute the query and get the snapshot
@@ -94,7 +99,7 @@ const AdminReportForm = () => {
       return querySnapshot;
     } catch (error) {
       console.error('Error fetching patients:', error);
-      throw error; // You might want to handle this error in your UI
+      throw error; 
     }
   };
 
@@ -119,6 +124,16 @@ const AdminReportForm = () => {
           placeholder="Last Name"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
+        />
+        <DatePicker
+          selected={dateOfBirth}
+          onChange={date => setDateOfBirth(date)}
+          dateFormat="MM/dd/yyyy"
+          placeholderText="Date of Birth"
+          showYearDropdown={true}
+          scrollableYearDropdown
+          yearDropdownItemNumber={60}
+          required
         />
         <input
           type="text"

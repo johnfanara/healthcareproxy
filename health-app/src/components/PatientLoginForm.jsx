@@ -77,6 +77,7 @@ const PatientLoginForm = ({ onPatientCheck }) => {
       }
       return (
         <div className= "App">
+          <h2 className= "h2Style">Patient Login</h2>
           <form className="initialFormInput">
             <input
               type="text"
