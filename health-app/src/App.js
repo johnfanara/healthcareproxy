@@ -6,14 +6,16 @@ import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
 import PatientLoginForm from './components/PatientLoginForm';
 import PatientRegistrationForm from './components/PatientRegistrationForm';
-import PatientSearch from './components/PatientSearch'; // Import the new PatientSearch component
+import PatientSearch from './components/PatientSearch'; 
 import PatientInfoForm from './components/PatientInfoForm';
+import NavigationBar from './components/NavigationBar';
 
 
 import image1 from './images/AdminLoginPic.jpg'; // Import your image files
 import image2 from './images/PatientLoginPic.jpg';
 import image3 from './images/AdminRegisterPic.jpg';
 import image4 from './images/PatientRegisterPic.jpg';
+import logoVideo from './images/FamLogo1.mp4';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
@@ -37,6 +39,8 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isPatient, setIsPatient] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [showNavigationBar, setShowNavigationBar] = useState(false);
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -45,6 +49,19 @@ function App() {
     });
     return unsubscribe; // Cleanup function
   }, []);
+
+  const [showLogo, setShowLogo] = useState(true);
+
+    useEffect(() => {
+        // Hide the logo after 6 seconds
+        const timer = setTimeout(() => {
+            setShowLogo(false);
+            setShowNavigationBar(true);
+        }, 6000);
+
+        // Clear the timer when the component unmounts
+        return () => clearTimeout(timer);
+    }, []);
 
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
@@ -105,9 +122,30 @@ function App() {
     setIsPatient(patientStatus);
   }
 
+
+
   return (
+
     <div className="App">
+   {showLogo && (
+                <div className="logo-container">
+                    <video autoPlay muted loop className="logo">
+                        <source src={logoVideo} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            )}
+
+
+       {showNavigationBar && (
+        <NavigationBar />
+      )}
+
+      
       <h1 className="heading">Farmingdale Alliance Medical</h1>
+
+     
+
       {!isUserLoggedIn && (
         <>
         <div className="button-container">

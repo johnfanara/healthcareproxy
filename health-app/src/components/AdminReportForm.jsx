@@ -84,7 +84,7 @@ const AdminReportForm = () => {
 
   const getPatients = async (firstName, lastName, dateOfBirth) => {
     try {
-      // Create a query to filter patients based on firstName and lastName
+      // Create a query to filter patients based on firstName and lastName and DOB
       const q = query(
         collection(db, 'patients'),
         where('firstName', '==', firstName),
