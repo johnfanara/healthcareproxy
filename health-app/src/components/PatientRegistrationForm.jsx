@@ -1,12 +1,15 @@
 import '../index.css';
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { auth } from '../App';
 
 const PatientRegistrationForm = ({ onPatientRegistered }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -15,6 +18,17 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (!dateOfBirth) {
+      setMessage('Please select a date of birth.');
+      return; // Exit the function early
+    }
+    // Check if the selected date of birth is within a valid range (e.g., not in the future)
+    const currentDate = new Date();
+    if (dateOfBirth > currentDate) {
+      setMessage('Please select a valid date of birth.');
+      return; // Exit the function early
+    }
 
     try {
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -36,7 +50,8 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
         email: user.email,
         id: nextPatientId,
         firstName: firstName,
-        lastName: lastName
+        lastName: lastName,
+        dateOfBirth: dateOfBirth
       });
 
       console.log('Patient registration successful');
@@ -47,6 +62,7 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
       setPassword('');
       setFirstName('');
       setLastName('');
+      setDateOfBirth(null);
 
       setMessage('Patient registration successful!');
 
@@ -79,8 +95,21 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
 
   return (
     <div className="App">
-      <h2>Register New Patient</h2> 
+      <h2 className= "h2Style">Register New Patient</h2> 
+     
       <form className="initialFormInput" onSubmit={onSubmit}>
+      <div className='date-picker'>
+      <DatePicker
+          selected={dateOfBirth}
+          onChange={date => setDateOfBirth(date)}
+          dateFormat="MM/dd/yyyy"
+          placeholderText="Date of Birth"
+          showYearDropdown={true}
+          scrollableYearDropdown
+          yearDropdownItemNumber={60}
+          required
+        />
+        </div>
         <input
           type="text"
           value={firstName}
@@ -95,6 +124,7 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
           required
           placeholder="Last Name" 
         />
+        
         <input
           type="email"
           value={email}

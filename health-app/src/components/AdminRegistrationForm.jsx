@@ -81,7 +81,7 @@ const AdminRegistrationForm = ({ onAdminRegistered }) => {
 
     return (
       <div className="App">
-        <h2>Register Administrator</h2> 
+        <h2 className= "h2Style">Register Administrator</h2> 
         <form className="initialFormInput">
         <input
               type="text"

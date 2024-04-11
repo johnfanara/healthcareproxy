@@ -2,22 +2,72 @@
 
 /*Styles for landing page*/
 
-.intialFormInput {
-    font-size: 20;
-    font-family: Arial, Bold;
-
-    
+.initialFormInput input {
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-left: 50px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  text-align: left;
+  width: 50%;
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
+
+
+.initialFormInput input:focus {
+  border-color: #007bff; /* Change border color when input is focused */
+}
+
+.initialFormInput[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.initialFormInput[type="submit"]:hover {
+  background-color: #0056b3; /* Darken background color on hover */
+}
+
+.date-picker{
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  padding: 1px;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  border-radius: 1px;
+  display: inline-block;
+  text-align: left;
+  width: 50%;
+ 
+}
+
 .heading{
 
     color:goldenrod;
 }
 
 .App{
-  background: linear-gradient(to right, rgb(22, 111, 156), rgb(90, 169, 195) );
+  background: linear-gradient(to right, #166f9c, rgb(90, 169, 195) );
   overflow: hidden;
+  position: relative;
+  
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+  width:100%;
+  
 }
 
+.h2Style {
+  font-family: Georgia, serif;
+  color: GoldenRod;
+}
 
 /* Admin Report Form styles */
 .report-form-container {
@@ -49,13 +99,13 @@
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    background-color: goldenrod; /* Use your theme color */
+    background-color: #d9a521; /* Use your theme color */
     color: white;
     cursor: pointer;
   }
   
   .report-form-container button:hover {
-    background-color: darkgoldenrod; /* Darker shade for hover effect */
+    background-color: hwb(43 4% 28%); /* Darker shade for hover effect */
   }
   
   /*Patient login email/pass field style*/
@@ -71,6 +121,12 @@
   
     color: rgb(233, 133, 133);
     cursor: pointer;
+  }
+
+  .logout-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
 
   /*error and auth message box*/
@@ -148,3 +204,71 @@
     width: auto; /* Allow button to expand horizontally */
   }
 }
+
+
+
+.logo-container {
+  position: auto;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 10vh; /* Set the height of the video container */
+  
+  z-index: 1; /* Ensure the video is above other content */
+  overflow: hidden;
+}
+
+.logo {
+  width: 100%;
+  height: 100%; /* Set the video height to 100% of its container */
+  object-fit: cover; /* Cover the entire container while maintaining aspect ratio */
+  overflow: hidden;
+}
+
+/* styles.css */
+
+
+/* Navigation Bar */
+.navigation-bar {
+  color: #fff; /* Text color */
+  padding: 10px; /* Padding around the navigation bar */
+  background: linear-gradient(to right, #8e6809, #897a49); /* Goldenrod gradient background */
+  border: 2px solid darkgoldenrod; /* Border with darkgoldenrod color */
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+  display: none; /* Hide hamburger menu by default */
+}
+
+/* Menu */
+.menu {
+  display: flex; /* Flex display to align items */
+  list-style-type: none; /* Remove bullet points from the list */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+.menu li {
+  margin-right: 20px; /* Margin between menu items */
+}
+
+.menu a {
+  color: #fff; /* Text color for links */
+  text-decoration: none; /* Remove underline from links */
+  padding: 10px; /* Padding for each link */
+}
+
+.menu a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Bar-like appearance */
+.navigation-bar:after {
+  content: ''; /* Create pseudo-element */
+  display: block; /* Make it a block-level element */
+  clear: both; /* Clear floats */
+}
+
+
+
