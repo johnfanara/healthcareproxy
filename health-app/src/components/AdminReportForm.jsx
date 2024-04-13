@@ -265,9 +265,3 @@ const AdminReportForm = () => {
 };
 
 export default AdminReportForm;
-
-
-
-
-
-

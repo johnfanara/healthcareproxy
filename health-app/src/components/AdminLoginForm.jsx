@@ -14,8 +14,9 @@ const AdminLoginForm = ({ onAdminCheck }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const emailLower = email.toLowerCase();
     const adminsCol = collection(db, 'admins');
-    const q = query(adminsCol, where('email', '==', email));
+    const q = query(adminsCol, where('email', '==', emailLower));
     const querySnapshot = await getDocs(q);
     
     if (!querySnapshot.empty) {

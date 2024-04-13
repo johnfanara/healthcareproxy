@@ -103,6 +103,7 @@ function App() {
 
   const handleIsAdmin = (adminStatus) => {
     setIsAdmin(adminStatus);
+    setIsPatient(false);
   }
 
   const handleAdminRegistration = (adminStatus) => {
@@ -111,7 +112,6 @@ function App() {
   }
 
   const handleIsPatient = (patientStatus) => {
-    setIsUserLoggedIn(true);
     setIsAdmin(false);
     setIsPatient(patientStatus);
   }
@@ -189,7 +189,7 @@ function App() {
       <PatientInfoForm email={ userEmail }/>
     }
 
-    {isUserLoggedIn && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
+    {isUserLoggedIn && isPatient && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
 
     {isUserLoggedIn && (
      <div className="logout-container">

@@ -13,9 +13,10 @@ const PatientLoginForm = ({ onPatientCheck }) => {
     
     const onSubmit = async (e) => {
         e.preventDefault();
-    
+
+        const emailLower = email.toLowerCase();
         const patientsCol = collection(db, 'patients');
-        const q = query(patientsCol, where('email', '==', email));
+        const q = query(patientsCol, where('email', '==', emailLower));
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
@@ -33,7 +34,6 @@ const PatientLoginForm = ({ onPatientCheck }) => {
           await signInWithEmailAndPassword(auth, email, password);
           
           console.log("Patient login successful");
-
           setEmail('');
           setPassword('');
           setMessage('Login successful!');
