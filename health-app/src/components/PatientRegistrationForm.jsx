@@ -23,6 +23,7 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
       setMessage('Please select a date of birth.');
       return; // Exit the function early
     }
+
     // Check if the selected date of birth is within a valid range (e.g., not in the future)
     const currentDate = new Date();
     if (dateOfBirth > currentDate) {
@@ -46,11 +47,14 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
         nextPatientId = `patient-${nextIdNumber.toString().padStart(2, '0')}`;
       }
 
+      const fullName = `${firstName}${lastName}`.toLowerCase();
+
       await setDoc(doc(patientsCol, nextPatientId), {
         email: user.email,
         id: nextPatientId,
         firstName: firstName,
         lastName: lastName,
+        fullName: fullName,
         dateOfBirth: dateOfBirth
       });
 
