@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { getFirestore, collection, addDoc, getDocs, query, where, setDoc, doc} from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where, setDoc, doc} from 'firebase/firestore';
 
 const AdminReportForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -17,31 +17,19 @@ const AdminReportForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const fullName = `${firstName}${lastName}`.toLowerCase();
 
     try {
       // Query the patient based on firstName and lastName
-      const querySnapshot = await getPatients(firstName, lastName, dateOfBirth);
+      const querySnapshot = await getPatients(fullName, dateOfBirth);
       
       let patientId;
 
       if (querySnapshot.empty) {
-        const patientsCol = collection(db, 'patients');
-        const patientDocs = await getDocs(patientsCol);
-        const patientNumber = patientDocs.size;
-        const newPatientId = `patient-${patientNumber.toString().padStart(2, '0')}`;
-
-        const newPatientRef = await addDoc (patientsCol, {
-          id: newPatientId,
-          firstName: firstName,
-          lastName: lastName
-        });
-        
-        patientId = newPatientRef.id;
+        setMessage('Patient not found. Please check entered details.');
       } else {
         patientId = querySnapshot.docs[0].id;
-      }
-      
-      // Get the patient notes collection
+        // Get the patient notes collection
       const patientNotesCol = collection(db, `patients/${patientId}/patient-notes`);
 
       // Query patient notes to get the count
@@ -76,19 +64,19 @@ const AdminReportForm = () => {
       setTimeout(() => {
         setMessage('');
       }, 3000);
+      }
     } catch (error) {
       console.error('Error adding visit note:', error);
       setMessage('Failed to add visit note. Please try again.');
     }
   };
 
-  const getPatients = async (firstName, lastName, dateOfBirth) => {
+  const getPatients = async (fullName, dateOfBirth) => {
     try {
       // Create a query to filter patients based on firstName and lastName and DOB
       const q = query(
         collection(db, 'patients'),
-        where('firstName', '==', firstName),
-        where('lastName', '==', lastName),
+        where('fullName', '==', fullName),
         where('dateOfBirth', '==', dateOfBirth)
       );
 
