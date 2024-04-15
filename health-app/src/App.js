@@ -9,6 +9,8 @@ import PatientRegistrationForm from './components/PatientRegistrationForm';
 import PatientSearch from './components/PatientSearch'; 
 import PatientInfoForm from './components/PatientInfoForm';
 import NavigationBar from './components/NavigationBar';
+import CustomFooter from './components/CustomFooter';
+
 
 
 import image1 from './images/AdminLoginPic.jpg'; // Import your image files
@@ -192,14 +194,17 @@ function App() {
     {isUserLoggedIn && isPatient && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
 
     {isUserLoggedIn && (
-     <div className="logout-container">
-     <button className="logoutButton" onClick={handleUserLogout}>
-       Log Out
-     </button>
-   </div>
-    )}
+        <div className="logout-container">
+          <button className="logoutButton" onClick={handleUserLogout}>
+            Log Out
+          </button>
+        </div>
+      )}
 
+      {/* Footer component added here at the bottom before closing the main div */}
+      <CustomFooter />
     </div>
+    
   );
 }
 

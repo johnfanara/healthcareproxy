@@ -270,5 +270,110 @@
   clear: both; /* Clear floats */
 }
 
+/* Footer Styles */
+.footer {
+  background-color: #166f9c; /* Your application's theme color */
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
 
+.footer a {
+  color: white;
+  margin-right: 15px;
+  text-decoration: none; /* Remove underline from links */
+}
 
+.footer a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+.footer .container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.footer .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer .col {
+  flex: 1;
+  padding: 10px;
+  min-width: 250px; /* Minimum width of the columns */
+  margin-bottom: 20px;
+}
+
+.footer .social-icons {
+  text-align: center;
+  padding: 20px;
+}
+
+.footer .icon {
+  margin-right: 5px;
+}
+
+.footer h6 {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.footer p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.footer .copyright {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 10px;
+  font-size: 14px;
+}
+/* Footer Styles */
+
+/* Gold Banner Styles */
+.gold-banner {
+  background-color: goldenrod;
+  color: white;
+  padding: 5px 10px;
+  display: inline-block;
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+/* Gold Hover Effect */
+.footer a:hover {
+  color: goldenrod;
+}
+
+/* Links Container */
+.links-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+}
+
+/* Individual Link Column Styles */
+.footer .col {
+  /* Existing styles */
+}
+
+.footer .col h6 {
+  margin-bottom: 10px;
+  color: goldenrod; /* Set the headings to goldenrod */
+}
+
+.footer .col a {
+  display: block;
+  color: white;
+  transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Copyright Styles */
+.footer .copyright {
+  background-color: goldenrod;
+  color: white;
+  padding: 10px 0;
+}
