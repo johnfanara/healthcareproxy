@@ -13,7 +13,7 @@ const NavigationBar = () => {
         {/* Links */}
         <a href="/about">About</a>
         <a href="/mission-statement">Mission Statement</a>
-        <a href="/contacts">Constact Us</a>
+        <a href="/contacts">Contact Us</a>
         <a href="/help">Help</a>
       </div>
     </div>
