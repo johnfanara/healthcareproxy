@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "firebase/auth";
 import AdminRegistrationForm from './components/AdminRegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
@@ -43,11 +43,17 @@ function App() {
 
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsUserLoggedIn(!!user);
-      setUserEmail(user ? user.email:'');
-    });
-    return unsubscribe; // Cleanup function
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          setIsUserLoggedIn(!!user);
+          setUserEmail(user ? user.email : '');
+        });
+        return unsubscribe;
+      })
+      .catch(error => {
+        console.error("Error setting persistence: ", error.message);
+      });
   }, []);
 
   const [showLogo, setShowLogo] = useState(true);
