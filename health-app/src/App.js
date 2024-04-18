@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "firebase/auth";
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import AdminRegistrationForm from './components/AdminRegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
@@ -11,13 +12,12 @@ import PatientInfoForm from './components/PatientInfoForm';
 import NavigationBar from './components/NavigationBar';
 import CustomFooter from './components/CustomFooter';
 
-
-
 import image1 from './images/AdminLoginPic.jpg'; // Import your image files
 import image2 from './images/PatientLoginPic.jpg';
 import image3 from './images/AdminRegisterPic.jpg';
 import image4 from './images/PatientRegisterPic.jpg';
 import logoVideo from './images/FamLogo1.mp4';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
@@ -47,16 +47,34 @@ function App() {
   useEffect(() => {
     setPersistence(auth, browserSessionPersistence)
       .then(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-          setIsUserLoggedIn(!!user);
-          setUserEmail(user ? user.email : '');
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            setIsUserLoggedIn(true);
+            setUserEmail(user.email);
+
+            const db = getFirestore();
+            const adminDoc = await getDocs(query(collection(db, 'admins'), where ('email', '==', user.email.toLowerCase())));
+            if (!adminDoc.empty) {
+              setIsAdmin(true);
+              setIsPatient(false);
+            } else {
+              const patientDoc = await getDocs(query(collection(db, 'patients'), where ('email', '==', user.email.toLowerCase())));
+              setIsPatient(!patientDoc.empty);
+              setIsAdmin(false);
+            }
+          } else {
+            setIsUserLoggedIn(false);
+            setIsAdmin(false);
+            setIsPatient(false);
+            setUserEmail('');
+          }
         });
         return unsubscribe;
       })
       .catch(error => {
         console.error("Error setting persistence: ", error.message);
       });
-  }, []);
+  }, [auth]);
 
   const [showLogo, setShowLogo] = useState(true);
 
