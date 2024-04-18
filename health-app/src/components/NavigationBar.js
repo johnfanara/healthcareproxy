@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import NavigationInfoForm from './NavigationInfoForm';
 
 const NavigationBar = () => {
+  const [formType, setFormType] = useState('');
+
+  const handleLinkClick = (type) => {
+    setFormType(type);
+  };
+
   return (
     <div className="navigation-bar">
       <div className="hamburger-menu">
@@ -11,13 +19,13 @@ const NavigationBar = () => {
       </div>
       <div className="menu">
         {/* Links */}
-        <a href="/about">About</a>
-        <a href="/mission-statement">Mission Statement</a>
-        <a href="/contacts">Constact Us</a>
-        <a href="/help">Help</a>
+        <Link to="/about" onClick={() => handleLinkClick('about')}>About</Link>
+        <Link to="/mission-statement" onClick={() => handleLinkClick('mission-statement')}>Mission Statement</Link>
+        <Link to="/contacts" onClick={() => handleLinkClick('contacts')}>Constact us</Link>
+        <Link to="/help" onClick={() => handleLinkClick('help')}>Help</Link>
       </div>
     </div>
   );
-}
+};
 
 export default NavigationBar;

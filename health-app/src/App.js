@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "firebase/auth";
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AdminRegistrationForm from './components/AdminRegistrationForm';
 import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
@@ -9,6 +10,7 @@ import PatientLoginForm from './components/PatientLoginForm';
 import PatientRegistrationForm from './components/PatientRegistrationForm';
 import PatientInfoForm from './components/PatientInfoForm';
 import NavigationBar from './components/NavigationBar';
+import NavigationInfoForm from './components/NavigationInfoForm';
 import CustomFooter from './components/CustomFooter';
 
 import image1 from './images/AdminLoginPic.jpg'; // Import your image files
@@ -16,7 +18,6 @@ import image2 from './images/PatientLoginPic.jpg';
 import image3 from './images/AdminRegisterPic.jpg';
 import image4 from './images/PatientRegisterPic.jpg';
 import logoVideo from './images/FamLogo1.mp4';
-import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqP_Kwxy_m4fUkeR3mJL8icEMQh1bzSJQ",
@@ -146,66 +147,74 @@ function App() {
   }
 
   return (
-  <div className="App">
-    {showLogo && (
-    <div className="logo-container">
-      <video autoPlay muted loop className="logo">
-        <source src={logoVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    </div>
-    )}
-    {showNavigationBar && (
-      <NavigationBar />
-    )}     
-    <h1 className="heading">Farmingdale Alliance Medical</h1>
-    {!isUserLoggedIn && (
-      <>
-        <div className="button-container">
-          <div className="button-img-container" onClick={handleAdminButtonClick}>
-          <img src={image1} alt="Admin Login" />
-          <span>Admin Login</span>
+    <Router>
+      <div className="App">
+        {showLogo && (
+        <div className="logo-container">
+          <video autoPlay muted loop className="logo">
+            <source src={logoVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
-        <div className="button-img-container" onClick={handlePatientLoginButtonClick}>
-          <img src={image2} alt="Patient Login" />
-          <span>Patient Login</span>
+        )}
+        {showNavigationBar && (
+          <NavigationBar />
+        )}
+        <Routes>
+          <Route path="/about" element={<NavigationInfoForm formType="about" />} />
+          <Route path="/mission-statement" element={<NavigationInfoForm formType="mission-statement" />} />
+          <Route path="/contacts" element={<NavigationInfoForm formType="contacts" />} />
+          <Route path="/help" element={<NavigationInfoForm formType="help" />} />
+          <Route path="*" element={<Navigate To="/" replace/>} />
+        </Routes>     
+        <h1 className="heading">Farmingdale Alliance Medical</h1>
+        {!isUserLoggedIn && (
+          <>
+            <div className="button-container">
+              <div className="button-img-container" onClick={handleAdminButtonClick}>
+              <img src={image1} alt="Admin Login" />
+              <span>Admin Login</span>
+            </div>
+            <div className="button-img-container" onClick={handlePatientLoginButtonClick}>
+              <img src={image2} alt="Patient Login" />
+              <span>Patient Login</span>
+            </div>
+            <div className="button-img-container" onClick={handleAdminRegistrationButtonClick}>
+              <img src={image3} alt="Register Admin" />
+              <span>Register Admin</span>
+            </div>
+            <div className="button-img-container" onClick={handlePatientRegistrationButtonClick}>
+              <img src={image4} alt="Register Patient" />
+              <span>Register Patient</span>
+            </div>
         </div>
-        <div className="button-img-container" onClick={handleAdminRegistrationButtonClick}>
-          <img src={image3} alt="Register Admin" />
-          <span>Register Admin</span>
-        </div>
-        <div className="button-img-container" onClick={handlePatientRegistrationButtonClick}>
-          <img src={image4} alt="Register Patient" />
-          <span>Register Patient</span>
-        </div>
-    </div>
-    </>
-  )}
-    {showAdminLoginForm && !isUserLoggedIn && (
-      <AdminLoginForm onAdminCheck={handleIsAdmin}/>
-    )}
-    {showPatientLoginForm && !isUserLoggedIn && (
-      <PatientLoginForm onPatientCheck={handleIsPatient}/>
-    )}
-    {showAdminRegistrationForm && !isUserLoggedIn && (
-      <AdminRegistrationForm onAdminRegistered={handleAdminRegistration}/>
-    )}
-    {showPatientRegistrationForm && !isUserLoggedIn && (
-      <PatientRegistrationForm onPatientRegistered={handlePatientRegistration}/>
-    )}    
-    {isUserLoggedIn && isAdmin && <AdminReportForm />}
-    {isUserLoggedIn && isPatient && <PatientInfoForm email={ userEmail }/>}
-    {isUserLoggedIn && (
-        <div className="logout-container">
-          <button className="logoutButton" onClick={handleUserLogout}>
-            Log Out
-          </button>
-        </div>
+        </>
       )}
-      {/* Footer component added here at the bottom before closing the main div */}
-      <CustomFooter />
-    </div>
-    
+      {showAdminLoginForm && !isUserLoggedIn && (
+        <AdminLoginForm onAdminCheck={handleIsAdmin}/>
+      )}
+      {showPatientLoginForm && !isUserLoggedIn && (
+        <PatientLoginForm onPatientCheck={handleIsPatient}/>
+      )}
+      {showAdminRegistrationForm && !isUserLoggedIn && (
+        <AdminRegistrationForm onAdminRegistered={handleAdminRegistration}/>
+      )}
+      {showPatientRegistrationForm && !isUserLoggedIn && (
+        <PatientRegistrationForm onPatientRegistered={handlePatientRegistration}/>
+      )}    
+      {isUserLoggedIn && isAdmin && <AdminReportForm />}
+      {isUserLoggedIn && isPatient && <PatientInfoForm email={ userEmail }/>}
+      {isUserLoggedIn && (
+          <div className="logout-container">
+            <button className="logoutButton" onClick={handleUserLogout}>
+              Log Out
+            </button>
+          </div>
+        )}
+        {/* Footer component added here at the bottom before closing the main div */}
+        <CustomFooter />
+      </div>
+    </Router>
   );
 }
 
