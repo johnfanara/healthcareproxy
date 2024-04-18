@@ -1,0 +1,8 @@
+        We set out to create an application that would improve 
+        the healthcare industry and provide a convenient way for 
+        healthcare professionals to document notes and 
+        communicate with their patients.
+
+        From a patient perspective, the application aims to 
+        promote positive treatment outcomes by allowing 
+        patients quick access to review their medical visit.
