@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { getFirestore, collection, query, where, getDocs, doc } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import PatientSearch from './PatientSearch';
 
 const PatientInfoForm = ({ email }) => {
     const [patientNotes, setPatientNotes] = useState([]);
     const [patientName, setPatientName] = useState('');
+    const [filteredNotes, setFilteredNotes] = useState([]);
     const db = getFirestore();
 
     const getNoteNumber = (noteId) => {
         const match = noteId.match(/\d+$/);
         return match ? parseInt(match[0], 10) + 1 : null;
     };
+    
+    const filterNotesByType = (type) => {
+        const filtered = patientNotes.filter(note => type ? note.appointmentType === type : true);
+        setFilteredNotes(filtered);
+    }
 
     useEffect(() => {
         const fetchPatientNotes = async () => {
@@ -38,9 +45,9 @@ const PatientInfoForm = ({ email }) => {
                 });
 
                 setPatientNotes(notes);
+                setFilteredNotes(notes);
             }
         };
-
         if (email) {
             fetchPatientNotes();
         }
@@ -49,9 +56,10 @@ const PatientInfoForm = ({ email }) => {
     return (
         <div>
             <h2>Patient Notes for {patientName}</h2>
+            <PatientSearch onTypeSelected={filterNotesByType} />
             <hr style={{ borderTop: '3px solid #bbb', marginBottom: '20px'}} />
-            {patientNotes.length ? (
-                patientNotes.map((note) => (
+            {filteredNotes.length ? (
+                filteredNotes.map((note) => (
                     <div key={note.id}>
                         <div style={{ backgroundColor: '#f8f8f8', padding: '10px', borderRadius: '8px', marginBottom: '20px' }}>
                             <h3>Visit {getNoteNumber(note.id)}</h3>

@@ -7,7 +7,6 @@ import AdminReportForm from './components/AdminReportForm';
 import AdminLoginForm from './components/AdminLoginForm';
 import PatientLoginForm from './components/PatientLoginForm';
 import PatientRegistrationForm from './components/PatientRegistrationForm';
-import PatientSearch from './components/PatientSearch'; 
 import PatientInfoForm from './components/PatientInfoForm';
 import NavigationBar from './components/NavigationBar';
 import CustomFooter from './components/CustomFooter';
@@ -43,7 +42,6 @@ function App() {
   const [userEmail, setUserEmail] = useState('');
   const [showNavigationBar, setShowNavigationBar] = useState(false);
 
-
   useEffect(() => {
     setPersistence(auth, browserSessionPersistence)
       .then(() => {
@@ -74,20 +72,19 @@ function App() {
       .catch(error => {
         console.error("Error setting persistence: ", error.message);
       });
-  }, [auth]);
+  }, []);
 
   const [showLogo, setShowLogo] = useState(true);
 
-    useEffect(() => {
-        // Hide the logo after 6 seconds
-        const timer = setTimeout(() => {
-            setShowLogo(false);
-            setShowNavigationBar(true);
-        }, 6000);
-
-        // Clear the timer when the component unmounts
-        return () => clearTimeout(timer);
-    }, []);
+  useEffect(() => {
+    // Hide the logo after 6 seconds
+    const timer = setTimeout(() => {
+      setShowLogo(false);
+      setShowNavigationBar(true);
+    }, 6000);
+    // Clear the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleAdminButtonClick = () => {
     setShowAdminLoginForm(true);
@@ -148,32 +145,22 @@ function App() {
     setIsPatient(patientStatus);
   }
 
-
-
   return (
-
-    <div className="App">
-   {showLogo && (
-                <div className="logo-container">
-                    <video autoPlay muted loop className="logo">
-                        <source src={logoVideo} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            )}
-
-
-       {showNavigationBar && (
-        <NavigationBar />
-      )}
-
-      
-      <h1 className="heading">Farmingdale Alliance Medical</h1>
-
-     
-
-      {!isUserLoggedIn && (
-        <>
+  <div className="App">
+    {showLogo && (
+    <div className="logo-container">
+      <video autoPlay muted loop className="logo">
+        <source src={logoVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    )}
+    {showNavigationBar && (
+      <NavigationBar />
+    )}     
+    <h1 className="heading">Farmingdale Alliance Medical</h1>
+    {!isUserLoggedIn && (
+      <>
         <div className="button-container">
           <div className="button-img-container" onClick={handleAdminButtonClick}>
           <img src={image1} alt="Admin Login" />
@@ -205,18 +192,9 @@ function App() {
     )}
     {showPatientRegistrationForm && !isUserLoggedIn && (
       <PatientRegistrationForm onPatientRegistered={handlePatientRegistration}/>
-    )}
-      
-    {isUserLoggedIn && isAdmin && 
-      <AdminReportForm />
-    }
-
-    {isUserLoggedIn && isPatient && 
-      <PatientInfoForm email={ userEmail }/>
-    }
-
-    {isUserLoggedIn && isPatient && <PatientSearch />} {/* Display the PatientSearch when the user is logged in */}
-
+    )}    
+    {isUserLoggedIn && isAdmin && <AdminReportForm />}
+    {isUserLoggedIn && isPatient && <PatientInfoForm email={ userEmail }/>}
     {isUserLoggedIn && (
         <div className="logout-container">
           <button className="logoutButton" onClick={handleUserLogout}>
@@ -224,7 +202,6 @@ function App() {
           </button>
         </div>
       )}
-
       {/* Footer component added here at the bottom before closing the main div */}
       <CustomFooter />
     </div>
