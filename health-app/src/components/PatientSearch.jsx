@@ -2,41 +2,39 @@
 
 import React, { useState } from 'react';
 
-const appointmentTypes = ["Check-up", "Prescription", "Lab Work", "Consultation"];
+const appointmentTypes = [
+  "General Check-up",
+  "Dental Appointment",
+  "Eye Check-up",
+  "Physical Therapy Session",
+  "Psychiatrist Appointment",
+  "Dermatology Appointment",
+  "Gynecology Appointment",
+  "Orthopedic Appointment",
+  "Urology Appointment",
+  "Cardiology Appointment",
+  "Other"
+];
 
-const PatientSearch = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+const PatientSearch = ({onTypeSelected}) => {
   const [selectedType, setSelectedType] = useState('');
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Searching for:", searchTerm, "with filter:", selectedType);
-    // Implement your search logic here
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value);
+    onTypeSelected(e.target.value);
   };
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <div>
+      <select
+        value={selectedType}
+        onChange={handleTypeChange}
+      >
+        <option value="">Select Appointment Type</option>
         {appointmentTypes.map(type => (
-          <label key={type}>
-            <input
-              type="radio"
-              value={type}
-              name="appointmentType"
-              checked={selectedType === type}
-              onChange={(e) => setSelectedType(e.target.value)}
-            />
-            {type}
-          </label>
+          <option key={type} value={type}>{type}</option>
         ))}
-      </div>
-      <button onClick={handleSearch}>Submit Search</button>
+      </select>
     </div>
   );
 };
