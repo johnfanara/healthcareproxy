@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import NavigationInfoForm from './NavigationInfoForm';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavigationBar = () => {
   const [formType, setFormType] = useState('');
+  const navigate = useNavigate();
 
   const handleLinkClick = (type) => {
     setFormType(type);
+  };
+
+  const clearAndGoHome = () => {
+    setFormType('');
+    navigate('/');
   };
 
   return (
@@ -19,9 +24,10 @@ const NavigationBar = () => {
       </div>
       <div className="menu">
         {/* Links */}
+        <Link to="/" onClick={clearAndGoHome}>Home</Link>
         <Link to="/about" onClick={() => handleLinkClick('about')}>About</Link>
         <Link to="/mission-statement" onClick={() => handleLinkClick('mission-statement')}>Mission Statement</Link>
-        <Link to="/contacts" onClick={() => handleLinkClick('contacts')}>Constact us</Link>
+        <Link to="/contacts" onClick={() => handleLinkClick('contacts')}>Contact us</Link>
         <Link to="/help" onClick={() => handleLinkClick('help')}>Help</Link>
       </div>
     </div>
