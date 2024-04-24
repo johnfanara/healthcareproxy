@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import PatientSearch from './PatientSearch';
+import { formatDate } from '../funcs/functions';
 
 const PatientInfoForm = ({ email }) => {
     const [patientNotes, setPatientNotes] = useState([]);
     const [patientName, setPatientName] = useState('');
     const [filteredNotes, setFilteredNotes] = useState([]);
+    const [patientData, setPatientData] = useState(null);
     const db = getFirestore();
 
     const getNoteNumber = (noteId) => {
@@ -16,7 +18,7 @@ const PatientInfoForm = ({ email }) => {
     const filterNotesByType = (type) => {
         const filtered = patientNotes.filter(note => type ? note.appointmentType === type : true);
         setFilteredNotes(filtered);
-    }
+    };
 
     useEffect(() => {
         const fetchPatientNotes = async () => {
@@ -28,7 +30,9 @@ const PatientInfoForm = ({ email }) => {
                 const patientDoc = querySnapshot.docs[0];
                 const patientData = patientDoc.data();
                 const patientId = patientDoc.id;
+                
                 setPatientName(`${patientData.firstName} ${patientData.lastName}`);
+                setPatientData({ ...patientData, patientId})
 
                 console.log("Patient ID: ", patientId);
                 const patientNotesCol = collection(db, `patients/${patientId}/patient-notes`);
@@ -37,7 +41,7 @@ const PatientInfoForm = ({ email }) => {
                 const notes = notesSnapshot.docs.map(doc => ({
                     ...doc.data(),
                     id: doc.data().id,
-                    appointmentDate: doc.data().appointmentDate ? doc.data().appointmentDate.toDate().toString() : 'No date provided'
+                    appointmentDate: formatDate(doc.data().appointmentDate ? doc.data().appointmentDate.toDate().toString() : '')
                 })).sort((a, b) => {
                     const numberA = getNoteNumber(a.id);
                     const numberB = getNoteNumber(b.id);
@@ -56,14 +60,14 @@ const PatientInfoForm = ({ email }) => {
     return (
         <div>
             <h2>Patient Notes for {patientName}</h2>
-            <PatientSearch onTypeSelected={filterNotesByType} />
+            {patientData && <PatientSearch onTypeSelected={filterNotesByType} patientData={patientData} patientNotes={filteredNotes} />}
             <hr style={{ borderTop: '3px solid #bbb', marginBottom: '20px'}} />
             {filteredNotes.length ? (
                 filteredNotes.map((note) => (
                     <div key={note.id}>
                         <div style={{ backgroundColor: '#f8f8f8', padding: '10px', borderRadius: '8px', marginBottom: '20px' }}>
                             <h3>Visit {getNoteNumber(note.id)}</h3>
-                            <p>Date: {note.appointmentDate ? note.appointmentDate : 'Date not available'}</p>
+                            <p>Date: {note.appointmentDate}</p>
                             <p>Appointment Type: {note.appointmentType}</p>
                             <p>Prescription: {note.prescription}</p>
                             <p>Visit Description: {note.visitDescription}</p>
