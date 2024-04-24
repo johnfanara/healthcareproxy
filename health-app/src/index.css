@@ -315,7 +315,7 @@
   margin-right: 5px;
 }
 
-.footer h6 {
+.footer h5 {
   font-weight: bold;
   margin-bottom: 15px;
 }
@@ -360,7 +360,7 @@
   /* Existing styles */
 }
 
-.footer .col h6 {
+.footer .col h5 {
   margin-bottom: 10px;
   color: goldenrod; /* Set the headings to goldenrod */
 }
