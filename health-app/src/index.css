@@ -1,5 +1,3 @@
-
-
 /*Styles for landing page*/
 
 .initialFormInput input {
@@ -19,7 +17,6 @@
   box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
-
 .initialFormInput input:focus {
   border-color: #007bff; /* Change border color when input is focused */
 }
@@ -37,74 +34,40 @@
   background-color: #0056b3; /* Darken background color on hover */
 }
 
-
-.initialFormInput button {
+.submit {
   margin-top: 10px;
   margin-left: 50px;
   font-weight: medium; 
   font-size: 1.2em; /* Increase font size */
   padding: 10px 20px; /* Add padding for better visual appearance */
-  background-color: #ffffff; /* Set initial background color */
-  color: #000000; /* Set initial text color */
-  border: 2px solid #000000; /* Add border */
+  background-color: #d9a521; /* Set initial background color */
+  color: #ffffff; /* Set initial text color */
+  border: 2px solid #d9a521; /* Add border */
   border-radius: 10px;
   cursor: pointer; /* Change cursor to pointer on hover */
   transition: background-color 0.3s ease; /* Smooth transition for background color change */
 }
 
 .initialFormInput button:hover {
-  background-color: #444444; 
+  background-color: rgb(90, 66, 5); 
   color: #ffffff; 
 }
-.date-picker {
-  font-size: 16px;
-  font-family: Arial, sans-serif;
-  padding: 1px;
-  margin-bottom: 2px;
-  margin-left: 2px;
-  border-radius: 1px;
-  display: inline-block;
-  text-align: left;
-  width: 50%;
-  position: relative;
+
+.date-picker button{
+  font-weight: medium; 
+  font-size: 1.2em; /* Increase font size */
+  padding: 10px 20px; /* Add padding for better visual appearance */
+  background-color: #d9a521; /* Set initial background color */
+  color: #ffffff; /* Set initial text color */
+  border: 2px solid #d9a521; /* Add border */
+  border-radius: 10px;
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for background color change */
 }
-
-.react-datepicker-wrapper {
-  position: relative;
-}
-
-.react-datepicker__navigation {
-  position: flex;
-  top: 25%;
-  right: 10%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-/* Adjust the size and position of the date picker navigation buttons */
-.react-datepicker__navigation--previous,
-.react-datepicker__navigation--next {
-  width: 1px; /* Adjust width of buttons */
-  height: 20px; /* Adjust height of buttons */
-  font-size: 12px; /* Adjust font size of button text */
-}
-
-.react-datepicker__navigation--previous {
-  left: -35px !important; /* Move the "previous" button over */
-}
-
-.react-datepicker__navigation--next {
-  right: -25px; /* Move the "next" button over */
-}
-
-
 
 .heading{
-
-    color:goldenrod;
+  font-family: Georgia, serif;
+  color:goldenrod;
 }
 
 .App{
@@ -116,7 +79,6 @@
   padding-left: 0;
   padding-right: 0;
   width:100%;
-  
 }
 
 .h2Style {
@@ -130,16 +92,17 @@
     padding: 20px;
     background: linear-gradient(to right, rgb(22, 111, 156), rgb(90, 169, 195) );; /* Change this to match your desired background */
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .report-form-container h1 {
-    color: #3f3939; /* Change this to match your desired heading color */
+    font-family: Georgia, serif;
+    color: GoldenRod;
   }
   
   .report-form-container form {
     display: flex;
     flex-direction: column;
+    width: 50%;
   }
   
   .report-form-container input,
@@ -194,7 +157,6 @@
     color: #3c763d; 
   }
 
-
 /*Styling of the Admin Report appointment radio buttons*/
 
 .appointment-type-container label {
@@ -248,9 +210,6 @@
   text-shadow: 1px 1px .25px rgb(1, 19, 26); /* Add black text shadow */
 }
 
-
-
-
 /* Media query for larger screens */
 @media screen and (min-width: 768px) {
   .button-container img {
@@ -259,8 +218,6 @@
     width: auto; /* Allow button to expand horizontally */
   }
 }
-
-
 
 .logo-container {
   position: auto;
@@ -281,8 +238,6 @@
 }
 
 /* styles.css */
-
-
 /* Navigation Bar */
 .navigation-bar {
   color: #fff; /* Text color */
@@ -410,7 +365,6 @@
   padding-bottom: 20px;
 }
 
-
 .footer .col h5 {
   margin-bottom: 10px;
   color: goldenrod; /* Set the headings to goldenrod */
@@ -427,4 +381,29 @@
   background-color: goldenrod;
   color: white;
   padding: 10px 0;
+}
+
+.admin-search-container h2 {
+  font-family: Georgia, serif;
+  color: GoldenRod;
+}
+
+.patient-search-container select {
+  margin-top: 10px;
+  margin-left: 50px;
+  font-weight: medium; 
+  font-size: 1.2em; /* Increase font size */
+  padding: 10px 20px; /* Add padding for better visual appearance */
+  background-color: #d9a521; /* Set initial background color */
+  color: #ffffff; /* Set initial text color */
+  border: 2px solid #d9a521; /* Add border */
+  border-radius: 10px;
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for background color change */
+}
+
+.patient-info-container h2 {
+  font-family: Georgia, serif;
+  color: GoldenRod;
+  margin-left: 25px;
 }

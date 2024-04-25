@@ -47,7 +47,7 @@ const PatientSearch = ({onTypeSelected, patientData, patientNotes}) => {
   };
 
   return (
-    <div>
+    <div className="patient-search-container">
       <select
         value={selectedType}
         onChange={handleTypeChange}
@@ -57,7 +57,7 @@ const PatientSearch = ({onTypeSelected, patientData, patientNotes}) => {
           <option key={type} value={type}>{type}</option>
         ))}
       </select>
-      <button onClick={downloadPDF}>Download PDF</button>
+      <button class="submit" onClick={downloadPDF}>Download PDF</button>
     </div>
   );
 };

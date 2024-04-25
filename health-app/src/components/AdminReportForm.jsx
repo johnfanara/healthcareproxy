@@ -247,7 +247,7 @@ const AdminReportForm = () => {
             />
           )}
         </div>
-        <button type="submit">Submit Report</button>
+        <button class="submit">Submit Report</button>
       </form>
       {message && <p>{message}</p>}
     </div>

@@ -110,7 +110,7 @@ const AdminRegistrationForm = ({ onAdminRegistered }) => {
               onChange={(e) => setPassword(e.target.value)} 
               required                                 
               placeholder="Password"/>
-        <button type="submit" onClick={onSubmit} >
+        <button class="submit" onClick={onSubmit} >
           Sign up                                
         </button>
       </form>                                                                                           

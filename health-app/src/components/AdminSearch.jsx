@@ -50,26 +50,26 @@ const AdminSearch = () => {
     }
   };
   return (
-    <div>
-      <h2>Search For Patient</h2>
-      <input
-        type="text"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        placeholder="Last Name"
-        required
-      />
-      <DatePicker
-        selected={dateOfBirth}
-        onChange={(date) => setDateOfBirth(date)}
-        dateFormat="MM/dd/yyyy"
-        placeholderText="Date of Birth"
-        showYearDropdown={true}
-        scrollableYearDropdown
-        yearDropdownItemNumber={60}
-        required     
-      />
-      <button onClick={handleSearch}>Search</button>
+    <div className="admin-search-container">
+      <h2 className="h2">Search For Patient</h2>
+        <input
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Last Name"
+          required
+        />
+        <DatePicker
+          selected={dateOfBirth}
+          onChange={(date) => setDateOfBirth(date)}
+          dateFormat="MM/dd/yyyy"
+          placeholderText="Date of Birth"
+          showYearDropdown={true}
+          scrollableYearDropdown
+          yearDropdownItemNumber={60}
+          required     
+        />
+        <button class="submit" onClick={handleSearch}>Search</button>
       {searchResults.length > 0 && (
         <div>
           <h3>Search Results:</h3>

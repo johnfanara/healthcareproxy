@@ -141,7 +141,7 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
           onChange={(e) => setPassword(e.target.value)} 
           required                                 
           placeholder="Password"/>
-        <button type="submit">Sign up</button>
+        <button class="submit">Sign up</button>
       </form>                                                                                           
       {message && <p className="message">{message}</p>}                                                  
     </div>
