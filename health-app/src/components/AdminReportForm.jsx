@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { getFirestore, collection, getDocs, query, where, setDoc, doc} from 'firebase/firestore';
+import AdminSearch from './AdminSearch';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { getFirestore, collection, getDocs, query, where, setDoc, doc} from 'firebase/firestore';
 
 const AdminReportForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -97,6 +98,7 @@ const AdminReportForm = () => {
 
   return (
     <div className="report-form-container">
+      {<AdminSearch/>}
       <h1 className="heading">Patient Visit Form</h1>
       <form onSubmit={handleSubmit}>
         <input
