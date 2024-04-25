@@ -58,7 +58,7 @@ const PatientInfoForm = ({ email }) => {
     }, [email, db]);
 
     return (
-        <div>
+        <div className="patient-info-container">
             <h2>Patient Notes for {patientName}</h2>
             {patientData && <PatientSearch onTypeSelected={filterNotesByType} patientData={patientData} patientNotes={filteredNotes} />}
             <hr style={{ borderTop: '3px solid #bbb', marginBottom: '20px'}} />

@@ -93,7 +93,7 @@ const AdminLoginForm = ({ onAdminCheck }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" onClick={onSubmit}>
+        <button class="submit" onClick={onSubmit}>
           Login
         </button>
         {message && <p className="message">{message}</p>}
@@ -109,7 +109,7 @@ const AdminLoginForm = ({ onAdminCheck }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <button type="submit" onClick={onResetPassword}>
+            <button class="submit" onClick={onResetPassword}>
               Reset Password
             </button>
           </form>
