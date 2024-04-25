@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getFirestore, collection, setDoc, query, orderBy, limit, getDocs, doc } from 'firebase/firestore';
 
 const About = () => {
     const [content, setContent] = useState('');
@@ -18,18 +19,98 @@ const About = () => {
     ); 
 };
 
-const MissionStatement = () => (
-    <div>Mission Statement Content...</div>
-);
+const MissionStatement = () => {
+    const [content, setContent] = useState('');
 
-const Contacts = () => (
-    <form>
-        <input type="text" placeholder="Your Name" />
-                        <input type="email" placeholder="Your Email" />
-                        <textarea placeholder="Your Message" />
-                        <button type="submit">Send</button>
-    </form>
-);
+    useEffect(() => {
+        fetch('/missionstatement.txt')
+            .then(response => response.text())
+            .then(text => setContent(text))
+            .catch(err => console.error('Failed to fetch text file: ', err));
+    }, []);
+
+    return (
+        <div>
+            <h1>Our Mission Statement</h1>
+            <pre>{content}</pre>
+        </div>
+    )
+};
+
+const Contacts = () => {    
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const db = getFirestore();
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const contactsCol = collection(db, 'contacts');
+            const q = query(contactsCol, orderBy('id', 'desc'), limit(1));
+            const querySnapshot = await getDocs(q);
+
+            let nextContactId = 'contact-form-01';
+
+            if (!querySnapshot.empty) {
+                const lastVisible = querySnapshot.docs[0].data();
+                const currentIdNumber = parseInt(lastVisible.id.replace('contact-form-', ''), 10);
+                const nextIdNumber = currentIdNumber + 1;
+                nextContactId = `contact-form-${nextIdNumber.toString().padStart(2, '0')}`;
+            }
+
+            await setDoc(doc(contactsCol, nextContactId), {
+                id: nextContactId,
+                name: name,
+                email: email,
+                message: message
+            });
+
+            console.log('Message stored!')
+
+            setName('');
+            setEmail('');
+            setMessage('');
+            setErrorMessage("Message sent successfully!")
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+        } catch (error) {
+            console.error("Contact Us Error");
+
+            setErrorMessage("Error sending message, try again");
+            setTimeout(() => {
+                setErrorMessage('');
+            }, 3000);
+        }
+    };
+    return (
+        <form onSubmit={onSubmit}>
+            <input 
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder="Your Name" />
+            <input 
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Your Email" />
+            <textarea
+                type="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+                placeholder="Your Message" />
+            <button type="submit">Send</button>
+            {errorMessage && <p className="errorMessage">{errorMessage}</p>} 
+        </form>
+    );
+};
 
 const Help = () => (
     <div>Help content...</div>
