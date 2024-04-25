@@ -87,33 +87,39 @@ const Contacts = () => {
         }
     };
     return (
-        <form onSubmit={onSubmit}>
-            <input 
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                placeholder="Your Name" />
-            <input 
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="Your Email" />
-            <textarea
-                type="message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-                placeholder="Your Message" />
-            <button type="submit">Send</button>
-            {errorMessage && <p className="errorMessage">{errorMessage}</p>} 
-        </form>
+        <div>
+            <h1>Questions? Contact Us!</h1>
+            <form onSubmit={onSubmit}>
+                <input 
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    placeholder="Your Name" />
+                <input 
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="Your Email" />
+                <textarea
+                    type="message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                    placeholder="Your Message" />
+                <button type="submit">Send</button>
+                {errorMessage && <p className="errorMessage">{errorMessage}</p>} 
+            </form>
+        </div>
     );
 };
 
-const Help = () => (
-    <div>Help content...</div>
+const Documentation = () => (
+    <div>
+        <h1>FAM Documentation</h1>
+        Documentation Here
+    </div>
 );
 
 const NavigationInfoForm = ({ formType }) => {
@@ -125,8 +131,8 @@ const NavigationInfoForm = ({ formType }) => {
                 return <MissionStatement />;
             case 'contacts':
                 return <Contacts />;
-            case 'help':
-                return <Help />;
+            case 'documentation':
+                return <Documentation />;
             default:
                 return <div>Select a form...</div>;
         }

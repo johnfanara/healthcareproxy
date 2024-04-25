@@ -164,7 +164,7 @@ function App() {
           <Route path="/about" element={<NavigationInfoForm formType="about" />} />
           <Route path="/mission-statement" element={<NavigationInfoForm formType="mission-statement" />} />
           <Route path="/contacts" element={<NavigationInfoForm formType="contacts" />} />
-          <Route path="/help" element={<NavigationInfoForm formType="help" />} />
+          <Route path="/documentation" element={<NavigationInfoForm formType="documentation" />} />
           <Route path="*" element={<Navigate To="/" replace/>} />
         </Routes>     
         <h1 className="heading">Farmingdale Alliance Medical</h1>

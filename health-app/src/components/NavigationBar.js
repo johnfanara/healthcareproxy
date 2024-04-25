@@ -28,7 +28,7 @@ const NavigationBar = () => {
         <Link to="/about" onClick={() => handleLinkClick('about')}>About</Link>
         <Link to="/mission-statement" onClick={() => handleLinkClick('mission-statement')}>Mission Statement</Link>
         <Link to="/contacts" onClick={() => handleLinkClick('contacts')}>Contact us</Link>
-        <Link to="/help" onClick={() => handleLinkClick('help')}>Help</Link>
+        <Link to="/documentation" onClick={() => handleLinkClick('documentation')}>Documentation</Link>
       </div>
     </div>
   );
