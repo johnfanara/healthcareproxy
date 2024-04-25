@@ -10,8 +10,11 @@
   margin-left: 50px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: left;
+  align-items: left;
   width: 50%;
   box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
@@ -34,7 +37,26 @@
   background-color: #0056b3; /* Darken background color on hover */
 }
 
-.date-picker{
+
+.initialFormInput button {
+  margin-top: 10px;
+  margin-left: 50px;
+  font-weight: medium; 
+  font-size: 1.2em; /* Increase font size */
+  padding: 10px 20px; /* Add padding for better visual appearance */
+  background-color: #ffffff; /* Set initial background color */
+  color: #000000; /* Set initial text color */
+  border: 2px solid #000000; /* Add border */
+  border-radius: 10px;
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for background color change */
+}
+
+.initialFormInput button:hover {
+  background-color: #444444; 
+  color: #ffffff; 
+}
+.date-picker {
   font-size: 16px;
   font-family: Arial, sans-serif;
   padding: 1px;
@@ -44,8 +66,41 @@
   display: inline-block;
   text-align: left;
   width: 50%;
- 
+  position: relative;
 }
+
+.react-datepicker-wrapper {
+  position: relative;
+}
+
+.react-datepicker__navigation {
+  position: flex;
+  top: 25%;
+  right: 10%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* Adjust the size and position of the date picker navigation buttons */
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+  width: 1px; /* Adjust width of buttons */
+  height: 20px; /* Adjust height of buttons */
+  font-size: 12px; /* Adjust font size of button text */
+}
+
+.react-datepicker__navigation--previous {
+  left: -35px !important; /* Move the "previous" button over */
+}
+
+.react-datepicker__navigation--next {
+  right: -25px; /* Move the "next" button over */
+}
+
+
 
 .heading{
 
@@ -355,10 +410,6 @@
   padding-bottom: 20px;
 }
 
-/* Individual Link Column Styles */
-.footer .col {
-  /* Existing styles */
-}
 
 .footer .col h5 {
   margin-bottom: 10px;
