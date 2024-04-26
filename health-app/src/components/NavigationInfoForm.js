@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, setDoc, query, orderBy, limit, getDocs, doc } from 'firebase/firestore';
+import '../about.css';
+import '../missionStatement.css';
+
 
 const About = () => {
     const [content, setContent] = useState('');
@@ -12,7 +15,7 @@ const About = () => {
     }, []);
 
     return (
-        <div>
+        <div className="about-content">
             <h1>About Farmingdale Alliance Medical</h1>
             <pre>{content}</pre>
         </div>
@@ -30,11 +33,11 @@ const MissionStatement = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Our Mission Statement</h1>
-            <pre>{content}</pre>
+        <div className="mission-statement-container">
+            <h1 className="mission-statement-heading">Our Mission Statement</h1>
+            <p className="mission-statement-content">{content}</p>
         </div>
-    )
+    );
 };
 
 const Contacts = () => {    
