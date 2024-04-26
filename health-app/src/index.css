@@ -388,6 +388,16 @@
   color: GoldenRod;
 }
 
+.admin-search-container h3 {
+  font-family: Georgia, serif;
+  color: GoldenRod;
+}
+
+.admin-search-container ul {
+  font-family: Georgia, serif;
+  color: GoldenRod;
+}
+
 .patient-search-container select {
   margin-top: 10px;
   margin-left: 50px;
@@ -405,5 +415,17 @@
 .patient-info-container h2 {
   font-family: Georgia, serif;
   color: GoldenRod;
+}
+
+.patient-info-container {
   margin-left: 25px;
+}
+
+.visit-container {
+  background-color: #ffffff;
+  width: 50%;
+  text-align: center;
+  border: 2px solid #d9a521; /* Add border */
+  border-radius: 10px;
+  color: black
 }

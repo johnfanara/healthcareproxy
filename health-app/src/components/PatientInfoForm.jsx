@@ -65,7 +65,7 @@ const PatientInfoForm = ({ email }) => {
             {filteredNotes.length ? (
                 filteredNotes.map((note) => (
                     <div key={note.id}>
-                        <div style={{ backgroundColor: '#f8f8f8', padding: '10px', borderRadius: '8px', marginBottom: '20px' }}>
+                        <div className="visit-container">
                             <h3>Visit {getNoteNumber(note.id)}</h3>
                             <p>Date: {note.appointmentDate}</p>
                             <p>Appointment Type: {note.appointmentType}</p>
