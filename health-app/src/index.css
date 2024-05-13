@@ -419,11 +419,12 @@
 
 .patient-info-container {
   margin-left: 25px;
+  margin-right: 25px;
 }
 
 .visit-container {
   background-color: #ffffff;
-  width: 50%;
+  width: 100%;
   text-align: center;
   border: 2px solid #d9a521; /* Add border */
   border-radius: 10px;

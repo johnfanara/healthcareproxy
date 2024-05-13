@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, setDoc, query, orderBy, limit, getDocs, doc } from 'firebase/firestore';
 import '../about.css';
 import '../missionStatement.css';
+import '../documentation.css';
 
 
 const About = () => {
@@ -120,8 +121,16 @@ const Contacts = () => {
 
 const Documentation = () => (
     <div>
-        <h1>FAM Documentation</h1>
-        Documentation Here
+        <h1 className="documentation-h">FAM Documentation</h1>
+        <h2 className="documentation-h">Senior Symposium Poster</h2>
+        <img src={"/fam-poster.png"} alt={""} style={{ width: '100%', height: 'auto' }} />
+        <h3 className="documentation-h">Final Report</h3>
+        <embed
+            src="/fam-final-report.pdf"
+            type="application/pdf"
+            width="100%"
+            height="600px"
+        />
     </div>
 );
 

@@ -72,7 +72,7 @@ const PatientRegistrationForm = ({ onPatientRegistered }) => {
 
       setTimeout(() => {
         setMessage('');
-      }, 3000);
+      }, 5000);
     } catch (error) {
       console.error("Patient registration error:", error.message);
       let errorMessage = "Registration failed. Please try again.";
